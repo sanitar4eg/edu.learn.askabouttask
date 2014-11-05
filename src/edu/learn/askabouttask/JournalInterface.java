@@ -1,9 +1,15 @@
 package edu.learn.askabouttask;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Scanner;
 
-public class JournalInterface {
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+public class JournalInterface implements Parcerable {
 	
 	private Journal current;
 
@@ -43,5 +49,29 @@ public class JournalInterface {
 	
 	void viewInfo () {
 		current.viewInfo();
+	}
+	
+	void save() {
+		saveObject(new File ("jaxb.xml"));
+	}
+	
+	@Override
+	public Object getObject(File file) throws JAXBException {
+		JAXBContext context = JAXBContext.newInstance(Journal.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		Object object = unmarshaller.unmarshal(file);
+		return object;
+	}
+
+	@Override
+	public void saveObject(File file) {
+		try {
+			JAXBContext context = JAXBContext.newInstance(Journal.class);
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			marshaller.marshal(current, file);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
 	}
 }
