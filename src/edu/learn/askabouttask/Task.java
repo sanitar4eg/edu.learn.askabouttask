@@ -3,10 +3,13 @@ package edu.learn.askabouttask;
 import java.util.Date;
 import java.util.TimerTask;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlType(propOrder = {"name", "description", "mindertime", "contacts"}, name = "task")
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlType(propOrder = {"name", "description", "minderTime", "contacts"}, name = "task")
 public class Task {
 	
 	protected Task () {}

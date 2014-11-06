@@ -25,6 +25,9 @@ public class UserInterface extends Object{
 			this.choiceOfAction();
 			break;
 		case 2: 
+			journalInterface = new JournalInterface();
+			journalInterface.openJournal();
+			this.choiceOfAction();
 			break;
 		case 3:
 			return;

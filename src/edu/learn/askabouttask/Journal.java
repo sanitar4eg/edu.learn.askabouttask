@@ -3,11 +3,16 @@ package edu.learn.askabouttask;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder = {"name", "tasks", "count"}, name = "journal")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlType(propOrder = {"name", "tasks", "count"}, name = "journal")
 public class Journal {
 	
 	protected Journal () {}
@@ -31,7 +36,9 @@ public class Journal {
 	private void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@XmlElementWrapper(name = "tasks")
+	@XmlElement(name = "task")
 	private ArrayList<Task> getTasks() {
 		return tasks;
 	}

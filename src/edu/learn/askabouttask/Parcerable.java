@@ -6,7 +6,7 @@ import javax.xml.bind.JAXBException;
 
 public interface Parcerable {
 	
-	Object getObject(File file) throws JAXBException;
+	//Object getObject(File file) throws JAXBException;
 	
-	void saveObject(File fiel) throws JAXBException;
+	//void saveObject(File file) throws JAXBException;
 }
