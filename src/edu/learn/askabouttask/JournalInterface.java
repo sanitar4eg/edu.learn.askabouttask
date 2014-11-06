@@ -64,7 +64,7 @@ public class JournalInterface implements Parcerable {
 		}
 	}
 	
-	//@Override
+	@Override
 	public Object getObject(File file) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(Journal.class);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -73,7 +73,7 @@ public class JournalInterface implements Parcerable {
 		return object;
 	}
 
-	//@Override
+	@Override
 	public void saveObject(File file) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(Journal.class);
