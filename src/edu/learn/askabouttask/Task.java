@@ -19,6 +19,7 @@ public class Task {
 		this.setDescription(description);
 		this.setMinderTime(minderTime);
 		this.setContacts(contacts);
+		reminder = new NotificationSystem(this.minderTime, this.name);
 	}
 	
 	private String name;
@@ -29,12 +30,15 @@ public class Task {
 	
 	private String contacts;
 	
+	private NotificationSystem reminder;
+	
 	public String getName () {
 		return this.name;
 	}
 
 	private void setName(String name) {
 		this.name = name;
+		setReminder();
 	}
 
 	private String getDescription() {
@@ -52,6 +56,7 @@ public class Task {
 
 	private void setMinderTime(Date minderTime) {
 		this.minderTime = minderTime;
+		setReminder();
 	}
 
 	private String getContacts() {
@@ -60,6 +65,12 @@ public class Task {
 
 	private void setContacts(String contacts) {
 		this.contacts = contacts;
+	}
+	
+	private void setReminder() {
+		if (reminder != null)
+			if (name != null && minderTime != null)
+				reminder = new NotificationSystem(minderTime, name);
 	}
 	
 	public void viewTask () {

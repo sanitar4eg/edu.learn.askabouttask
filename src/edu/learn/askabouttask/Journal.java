@@ -1,5 +1,4 @@
 package edu.learn.askabouttask;
-
 import java.util.Date;
 import java.util.LinkedList;
 
