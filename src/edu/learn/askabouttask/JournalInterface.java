@@ -1,9 +1,7 @@
 package edu.learn.askabouttask;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Date;
-import java.util.Scanner;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

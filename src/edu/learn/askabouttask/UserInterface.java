@@ -1,7 +1,5 @@
 package edu.learn.askabouttask;
 
-import java.util.Scanner;
-
 public class UserInterface extends Object{
 	
 	JournalInterface journalInterface;

@@ -1,7 +1,6 @@
 package edu.learn.askabouttask;
 
 import java.util.Date;
-import java.util.TimerTask;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

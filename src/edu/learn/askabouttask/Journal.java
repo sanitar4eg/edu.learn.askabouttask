@@ -1,7 +1,7 @@
 package edu.learn.askabouttask;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,12 +19,12 @@ public class Journal {
 	
 	public Journal (String name) {
 		this.setName(name);
-		setTasks(new ArrayList<Task>());
+		setTasks(new LinkedList<Task>());
 	}
 	
 	private String name;
 	
-	private ArrayList<Task> tasks;
+	private LinkedList<Task> tasks;
 
 	private String getName() {
 		return name;
@@ -36,11 +36,11 @@ public class Journal {
 	
 	@XmlElementWrapper(name = "tasks")
 	@XmlElement(name = "task")
-	private ArrayList<Task> getTasks() {
+	private LinkedList<Task> getTasks() {
 		return tasks;
 	}
 
-	private void setTasks(ArrayList<Task> tasks) {
+	private void setTasks(LinkedList<Task> tasks) {
 		this.tasks = tasks;
 	}
 
