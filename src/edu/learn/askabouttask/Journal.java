@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(propOrder = {"name", "tasks", "count"}, name = "journal")
+@XmlType(propOrder = {"name", "tasks"}, name = "journal")
 public class Journal {
 	
 	protected Journal () {}
@@ -20,14 +20,11 @@ public class Journal {
 	public Journal (String name) {
 		this.setName(name);
 		setTasks(new ArrayList<Task>());
-		setCount(0);
 	}
 	
 	private String name;
 	
 	private ArrayList<Task> tasks;
-	
-	private int count;
 
 	private String getName() {
 		return name;
@@ -48,17 +45,12 @@ public class Journal {
 	}
 
 	private int getCount() {
-		return count;
-	}
-
-	private void setCount(int count) {
-		this.count = count;
+		return tasks.size();
 	}
 	
 	public void addTask (String name, String description, Date minderTime,
 			String contacts) {
 		getTasks().add(new Task(name, description, minderTime, contacts));
-		setCount(getCount() + 1);
 	}
 	
 	public boolean deleteTask (String name) {
@@ -72,7 +64,6 @@ public class Journal {
 			}
 			if (target > -1) {
 				getTasks().remove(target);
-				setCount(getCount() - 1);
 				return true;
 			}
 		}
