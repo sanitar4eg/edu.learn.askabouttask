@@ -19,7 +19,7 @@ public class Task {
 		this.setDescription(description);
 		this.setMinderTime(minderTime);
 		this.setContacts(contacts);
-		reminder = new NotificationSystem(this.minderTime, this.name);
+		//reminder = new NotificationSystem(this.minderTime, this.name);
 	}
 	
 	private String name;
@@ -68,9 +68,10 @@ public class Task {
 	}
 	
 	private void setReminder() {
-		if (reminder != null)
-			if (name != null && minderTime != null)
+		if (reminder == null)
+			if (name != null && minderTime != null) {
 				reminder = new NotificationSystem(minderTime, name);
+			}
 	}
 	
 	public void viewTask () {

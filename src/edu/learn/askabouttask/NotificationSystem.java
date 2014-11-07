@@ -8,13 +8,15 @@ public class NotificationSystem {
 	
 	public NotificationSystem(Date date, String nameTask) {
 		timer = new Timer();
-		timer.schedule(new NotificationTask(), date);
+		timer.schedule(nt, date);
 		this.nameTask = nameTask;
 	}
 
 	private Timer timer;
 	
 	private String nameTask;
+	
+	private NotificationTask nt = new NotificationTask();
 	
 	class NotificationTask extends TimerTask {
 		public void run() {

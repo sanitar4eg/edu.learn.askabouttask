@@ -18,7 +18,10 @@ public class ConsoleInterface {
 		while (true) {
 			if (scanner.hasNext()) 
 				return scanner.next();
-			System.out.println(WRONG_INPUT);	
+			else{
+				scanner.next();
+				System.out.println(WRONG_INPUT);	
+			}
 		}
 	}
 	
@@ -27,8 +30,10 @@ public class ConsoleInterface {
 			if (scanner.hasNextInt()) {
 				int result = scanner.nextInt();
 				return result;
+			} else {
+				scanner.next();
+				System.out.println(WRONG_INPUT);	
 			}
-			System.out.println(WRONG_INPUT);	
 		}
 	}
 
@@ -38,8 +43,10 @@ public class ConsoleInterface {
 				int result = scanner.nextInt();
 				if (result >= min && result <= max)
 					return result;
+			} else {
+				scanner.next();
+				System.out.println(WRONG_INPUT);	
 			}
-			System.out.println(WRONG_INPUT);	
 		}
 	}
 	
@@ -55,8 +62,10 @@ public class ConsoleInterface {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			} else {
+				scanner.next();
+				System.out.println(WRONG_INPUT);
 			}
-			System.out.println(WRONG_INPUT);
 		}
 	}
 }
