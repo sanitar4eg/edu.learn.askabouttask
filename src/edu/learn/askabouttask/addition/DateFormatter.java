@@ -1,9 +1,12 @@
-package edu.learn.askabouttask;
+package edu.learn.askabouttask.addition;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import edu.learn.askabouttask.interaction.ConsoleInterface;
+
 
 public class DateFormatter extends XmlAdapter<String, Date> {
 	

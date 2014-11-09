@@ -1,4 +1,4 @@
-package edu.learn.askabouttask;
+package edu.learn.askabouttask.interaction;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

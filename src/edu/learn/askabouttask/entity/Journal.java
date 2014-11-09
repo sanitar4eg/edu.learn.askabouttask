@@ -1,4 +1,4 @@
-package edu.learn.askabouttask;
+package edu.learn.askabouttask.entity;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -87,6 +88,12 @@ public class Journal {
 	public void viewInfo() {
 		System.out.println("Планировщик " + getName() + 
 				" содержит следующее количество задач: " + getCount());
+	}
+	
+	public void eraseTasks() {
+		for (Task task : tasks) {
+			task.eraseReminder();
+		}
 	}
 
 }

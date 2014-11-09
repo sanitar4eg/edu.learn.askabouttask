@@ -1,4 +1,4 @@
-package edu.learn.askabouttask;
+package edu.learn.askabouttask.entity;
 
 import java.util.Date;
 
@@ -6,6 +6,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import edu.learn.askabouttask.addition.DateFormatter;
+import edu.learn.askabouttask.addition.NotificationSystem;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(propOrder = {"name", "description", "minderTime", "contacts"}, name = "task")
@@ -19,7 +22,6 @@ public class Task {
 		this.setDescription(description);
 		this.setMinderTime(minderTime);
 		this.setContacts(contacts);
-		//reminder = new NotificationSystem(this.minderTime, this.name);
 	}
 	
 	private String name;
@@ -79,6 +81,10 @@ public class Task {
 		System.out.println("Описание: " + getDescription());
 		System.out.println("Время: " + getMinderTime());
 		System.out.println("Контакты: " + getContacts());
+	}
+	
+	public void eraseReminder() {
+		reminder.cancelReminder();
 	}
 
 }

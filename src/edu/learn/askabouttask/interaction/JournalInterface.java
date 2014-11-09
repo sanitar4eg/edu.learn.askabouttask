@@ -1,4 +1,4 @@
-package edu.learn.askabouttask;
+package edu.learn.askabouttask.interaction;
 
 import java.io.File;
 import java.util.Date;
@@ -7,6 +7,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
+import edu.learn.askabouttask.addition.DateFormatter;
+import edu.learn.askabouttask.entity.Journal;
 
 public class JournalInterface implements Parcerable {
 	
@@ -60,6 +63,10 @@ public class JournalInterface implements Parcerable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void exit() {
+		current.eraseTasks();
 	}
 	
 	@Override

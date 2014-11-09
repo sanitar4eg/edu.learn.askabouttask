@@ -1,4 +1,4 @@
-package edu.learn.askabouttask;
+package edu.learn.askabouttask.interaction;
 
 public class UserInterface extends Object{
 	
@@ -59,6 +59,7 @@ public class UserInterface extends Object{
 				journalInterface.save();
 				break;
 			case 6:
+				journalInterface.exit();
 				return;
 			}
 		}
