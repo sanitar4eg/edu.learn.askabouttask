@@ -23,6 +23,11 @@ public class UserInterface extends Object{
 		userInterface.start();
 	}
 	
+	/**
+	 * Метод обеспечивающий, либо создание нового планировщика, 
+	 * либо загрузку существующего из XML файла
+	 * @see JournalInterface
+	 */
 	void start() {
 		System.out.println("Что Вы хотите сделать?");
 		System.out.println("1. Создать планировщи задач");
@@ -45,6 +50,10 @@ public class UserInterface extends Object{
 		}
 	}
 		
+	/**
+	 * Метод предназначен для работы с Журналом
+	 * @see JournalInterface
+	 */
 	void choiceOfAction() {
 		while (true) {
 			System.out.println("Выберите что требуется сделать");
