@@ -1,9 +1,22 @@
-package edu.learn.askabouttask.interaction;
+package edu.learn.askabouttask;
 
+import edu.learn.askabouttask.interaction.ConsoleInterface;
+import edu.learn.askabouttask.interaction.JournalInterface;
+
+/**
+ * Класс обеспчивающий взаимодействие с пользователем.
+ *
+ */
 public class UserInterface extends Object{
 	
+	/**
+	 * @see JournalInterface
+	 */
 	JournalInterface journalInterface;
 	
+	/**
+	 * Запуск приожения происходит с этой точки, 
+	 */
 	public static void main(String[] args) {
 		System.out.println("Hello!");
 		UserInterface userInterface = new UserInterface();

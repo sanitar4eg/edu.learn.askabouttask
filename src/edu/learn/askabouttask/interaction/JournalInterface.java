@@ -15,14 +15,14 @@ public class JournalInterface implements Parcerable {
 	
 	private Journal current;
 
-	void createJournal() {
+	public void createJournal() {
 		System.out.println("Введите имя планировщика");
 		String name = ConsoleInterface.getString();
 		current = new Journal(name);
 		current.viewInfo();
 	}
 	
-	void addTask() {
+	public void addTask() {
 		System.out.println("Введите название задачи");
 		String name = ConsoleInterface.getString();
 		System.out.println("Введите описание");
@@ -34,7 +34,7 @@ public class JournalInterface implements Parcerable {
 		current.addTask(name, description, minderTime, contacts);
 	}
 	
-	void deleteTask() {
+	public void deleteTask() {
 		System.out.println("Введите название удаляемой задачи");
 		String name = ConsoleInterface.getString();
 		if (current.deleteTask(name)) {
@@ -44,20 +44,20 @@ public class JournalInterface implements Parcerable {
 		}		
 	}
 	
-	void viewTasks() {
+	public void viewTasks() {
 		current.viewTasks();
 	}
 	
 	
-	void viewInfo () {
+	public void viewInfo () {
 		current.viewInfo();
 	}
 	
-	void save() {
+	public void save() {
 		saveObject(new File ("jaxb.xml"));
 	}
 	
-	void openJournal() {
+	public void openJournal() {
 		try {
 		current = (Journal) getObject(new File("jaxb.xml"));
 		} catch (Exception e) {
