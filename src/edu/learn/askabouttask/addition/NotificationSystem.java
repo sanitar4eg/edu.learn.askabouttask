@@ -18,6 +18,7 @@ public class NotificationSystem {
 		this.date = date;
 		timer = new Timer();
 		if (new Date().getTime() < date.getTime())
+		    // TODO: [Vyacheslav Zh.] лучше не делать schedule в конструкторе, вместо этого вынести логику в отдельный метод 
 			timer.schedule(nt, date);
 		this.nameTask = nameTask;
 	}
@@ -44,7 +45,8 @@ public class NotificationSystem {
 			JarFile jf= new JarFile(file);
 			Manifest manifest = jf.getManifest();
 			Attributes attr = manifest.getMainAttributes();
-			String mainClassName = attr.getValue("Main-Class");  
+			String mainClassName = attr.getValue("Main-Class");
+			// TODO: [Vyacheslav Zh.] проще использовать file.toURL()
 		    URL url = new URL("file", null, file.getAbsolutePath());  
 		    ClassLoader cl = new URLClassLoader(new URL[] {url});  
 		    Class mainClass = cl.loadClass(mainClassName);  
@@ -64,10 +66,16 @@ public class NotificationSystem {
 		InputStream in = proc.getInputStream();
 	    InputStream err = proc.getErrorStream();
 	
+	    // TODO: [Vyacheslav Zh.] Для копирования потоков проще использовать библиотеку - Apache commons-io
 	    byte b[]=new byte[in.available()];
 	    in.read(b,0,b.length);
 	    System.out.println(new String(b));
 	
+	    int readCount = 0;
+	    while ((readCount = in.read(b)) != -1) {
+	    	String s = new String(b, 0 , readCount);
+	    }
+	    
 	    byte c[]=new byte[err.available()];
 	    err.read(c,0,c.length);
 	    System.out.println(new String(c));

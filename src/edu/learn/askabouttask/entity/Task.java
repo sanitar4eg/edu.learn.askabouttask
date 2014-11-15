@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import edu.learn.askabouttask.addition.DateFormatter;
 import edu.learn.askabouttask.addition.NotificationSystem;
 
+//TODO: [Vyacheslav Zh.] Зачем делать get -методы private?
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(propOrder = {"name", "description", "minderTime", "contacts"}, name = "task")
 public class Task {
@@ -76,6 +77,7 @@ public class Task {
 			}
 	}
 	
+	// TODO: [Vyacheslav Zh.] Этот метод - часть UI. В соотвествии с заданием пользовательский интерфейс должен быть в отдельном классе.
 	public void viewTask () {
 		System.out.println(getName());
 		System.out.println("Описание: " + getDescription());

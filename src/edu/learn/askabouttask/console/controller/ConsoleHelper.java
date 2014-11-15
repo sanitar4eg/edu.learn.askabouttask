@@ -1,10 +1,10 @@
-package edu.learn.askabouttask.interaction;
+package edu.learn.askabouttask.console.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class ConsoleInterface {
+public class ConsoleHelper {
 	
 	public final static String DATE_FORMAT = "yyyy.MM.dd'at'HH:mm";
 	
@@ -57,8 +57,8 @@ public class ConsoleInterface {
 			if (scanner.hasNext()) {
 				try {
 					date = format.parse(scanner.next());
-				if (date != null)
-					return date;
+					if (date != null)
+						return date;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -27,6 +27,8 @@ public class Journal {
 	
 	private String name;
 	
+    // TODO: [Vyacheslav Zh.] Не используй конкретную реализацию коллекции (LinkedList) в сигнатурах/объявлениях,
+    // вместо этого используй общий интерфейс - List. Ниже в accessor методах - то же самое.
 	private LinkedList<Task> tasks;
 
 	private String getName() {
@@ -56,6 +58,7 @@ public class Journal {
 		getTasks().add(new Task(name, description, minderTime, contacts));
 	}
 	
+	// TODO: [Vyacheslav Zh.] Чтобы упростить поиск задач можно использовать Map
 	public boolean deleteTask (String name) {
 		if (isEmpty()){
 			return false;
@@ -73,6 +76,7 @@ public class Journal {
 		return false;
 	}
 	
+	// TODO: [Vyacheslav Zh.] Этот метод - часть UI. В соотвествии с заданием пользовательский интерфейс должен быть в отдельном классе.
 	public void viewTasks () {
 		if (isEmpty()) {
 			System.out.println("Журнал пуст");
@@ -85,18 +89,29 @@ public class Journal {
 	}
 	
 	public boolean isEmpty () {
+	    // TODO: [Vyacheslav Zh.] Здесь типичная сситемная ошибка - вместо "реальной" проверки isEmpty считает общее
+	    // кол-во и сравниваем с 0. Все коллекции имеют метод isEmpty, проще делегировать исполнение этому методу.
 		return (getCount() == 0) ? true : false;
 	}
 	
+	// TODO: [Vyacheslav Zh.] Этот метод - часть UI. В соотвествии с заданием пользовательский интерфейс должен быть в отдельном классе.
 	public void viewInfo() {
 		System.out.println("Планировщик " + getName() + 
 				" содержит следующее количество задач: " + getCount());
 	}
 	
+	// TODO: [Vyacheslav Zh.] Название подобрано не очень оптимально - такое впечатление что дочерние объекты - Task
+	// будут удалены. По факту - нет.
 	public void eraseTasks() {
 		for (Task task : tasks) {
 			task.eraseReminder();
 		}
+	}
+
+	public void addTask(/* ... task properties .. */) {
+		// 1 create task, set parameters
+		// 2 add to map
+		// 3 run task.setSchedule() / setReminder
 	}
 
 }
