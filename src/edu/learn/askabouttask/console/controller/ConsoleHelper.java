@@ -12,7 +12,7 @@ public class ConsoleHelper {
 	
 	private final static String WRONG_INPUT = "Неверные данные, попробуйте еще раз";
 	
-	private static SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+	public static SimpleDateFormat formater = new SimpleDateFormat(DATE_FORMAT);
 	
 	public static String getString() {
 		while (true) {
@@ -56,7 +56,7 @@ public class ConsoleHelper {
 		while (true) {
 			if (scanner.hasNext()) {
 				try {
-					date = format.parse(scanner.next());
+					date = formater.parse(scanner.next());
 					if (date != null)
 						return date;
 				} catch (Exception e) {

@@ -1,29 +1,53 @@
 package edu.learn.askabouttask.console.view;
 
 import edu.learn.askabouttask.console.controller.MainAction;
+import edu.learn.askabouttask.console.controller.StartAction;
 
 public class JournalView
 {
 
 	public void printMainMenu() {
 		System.out.println("Выберите что требуется сделать");
-		for (MainAction a : MainAction.values()) {
-			System.out.println((a.ordinal() + 1) + ". " + a.getDescription());
+		for (MainAction text : MainAction.values()) {
+			System.out.println((text.ordinal() + 1) + ". " + text.getDescription());
 		}
-		System.out.println("4. Посмотреть информацию о планировщике");
-		System.out.println("5. Сохранить планировщик");
-		System.out.println("6. Выход");
 	}
 
 	public void printStartMenu() {
 		System.out.println("Hello!");
 		System.out.println("Что Вы хотите сделать?");
-		System.out.println("1. Создать планировщи задач");
-		System.out.println("2. Открыть планировщик задач");
-		System.out.println("3. Выход");
+		for (StartAction text : StartAction.values()) {
+			System.out.println((text.ordinal() + 1) + ". " + text.getDescription());
+		}
+	}
+	
+	public void enterNameJournal() {
+		System.out.println("Введите имя планировщика");
+	}
+	
+	public void showEmptyJournal(String name) {
+		System.out.println("Планировщик " + name + " пуст");
+	}
+	
+	public void showJournalInfo(String name, int count) {
+		System.out.println("Планировщик " + name + 
+				" содержит следующее количество задач: " + count);
 	}
 
-	public static void main(String[] args) {
-		new JournalView().printMainMenu();
+	public void printSelectTaskName() {
+		System.out.println("Введите название задачи");
 	}
+
+	public void printRemoveSuccesfull() {
+		System.out.println("Успешное удаление");		
+	}
+
+	public void printRemoveFailed() {
+		System.out.println("Задача не найдена");		
+	}
+
+	public void printNumberOfTasks(int i) {
+		System.out.println("Задача №" + i); 		
+	}
+	
 }

@@ -2,8 +2,8 @@ package edu.learn.askabouttask.console.controller;
 
 public enum StartAction {
 	CREATE_JOURNAL("Создать планировщи задач"),
-	OPEN_JOURNAL(""),
-	EXIT("");
+	OPEN_JOURNAL("Открыть планировщик задач"),
+	EXIT("Выход");
 
 	private String description;
 

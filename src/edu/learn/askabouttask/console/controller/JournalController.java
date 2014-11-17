@@ -1,6 +1,8 @@
 package edu.learn.askabouttask.console.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
@@ -21,6 +23,8 @@ public class JournalController
 {
 	private JournalView view = new JournalView(); // controller
 	
+	private TaskController taskController = new TaskController();
+	
 	/**
 	 * Данный объект может быть сохранен в XML файл, а так же загружен из него
 	 * @see Journal
@@ -38,7 +42,7 @@ public class JournalController
 
 		StartAction[] allActions = StartAction.values();
 		int choice = ConsoleHelper.getInt(1, 3);
-		StartAction selectedAction = allActions[choice];
+		StartAction selectedAction = allActions[choice - 1];
 		
 		switch (selectedAction) {
 			case CREATE_JOURNAL:
@@ -61,29 +65,30 @@ public class JournalController
 	void choiceOfAction() {
 		while (true) {
 			view.printMainMenu();
-			
 			int choice = ConsoleHelper.getInt(1 ,6);
-			switch (choice) {
-			case 1:
-				taskController.viewTasks();
+			MainAction[] allActions = MainAction.values();
+			MainAction selectedAction = allActions[choice - 1];
+			switch (selectedAction) {
+			case TASK_LIST:
+				viewTasks();
 				break;
-			case 2: 
-				journal.addTask();
+			case ADD_TASK: 
+				addTask();
 				break;
-			case 3:
-				taskController.deleteTask();
+			case REMOVE_TASK:
+				deleteTask();
 				break;
-			case 4 :
+			case SHOW_JOURNAL_INFO:
 				viewInfo();
 				break;
-			case 5:
+			case SAVE_JOURNAL:
 				try {
 					save();
 				} catch (JAXBException e) {
 					e.printStackTrace();
 				}
 				break;
-			case 6:
+			case EXIT:
 				exit();
 				return;
 			}
@@ -94,17 +99,21 @@ public class JournalController
 	 * Метод создает новый журнал и помещает в поле current
 	 */
 	public void createJournal() {
-		System.out.println("Введите имя планировщика");
+		view.enterNameJournal();
 		String name = ConsoleHelper.getString();
 		journal = new Journal(name);
-		journal.viewInfo();
+		view.showJournalInfo(name, journal.getCount());
 	}
 
 	/**
 	 * @see Journal
 	 */
 	public void viewInfo() {
-		journal.viewInfo();
+		if (journal.isEmpty()) {
+			view.showEmptyJournal(journal.getName());
+		} else {
+			view.showJournalInfo(journal.getName(), journal.getCount());
+		}
 	}
 
 	/**
@@ -141,40 +150,34 @@ public class JournalController
 	 * @see Journal
 	 */
 	public void addTask() {
-		System.out.println("Введите название задачи");
-		String name = ConsoleHelper.getString();
-		System.out.println("Введите описание");
-		String description = ConsoleHelper.getString();
-		System.out.println("Введите время для напоминания");
-		Date minderTime = ConsoleHelper.getDate();
-		System.out.println("Введите контакты");
-		String contacts = ConsoleHelper.getString();
-		journal.addTask(name, description, minderTime, contacts);
+		journal.addTask(taskController.getTask());
 	}
 
 	/**
 	 * Метод удаляет задачу из журнала 
 	 * @see Journal
 	 */
-	public void deleteTask(Map<String, Task> allTasks) {
-		System.out.println("Введите название удаляемой задачи");
-		view.printSelectTaskMenu();
-
+	public void deleteTask() {
+		view.printSelectTaskName();
 		String name = ConsoleHelper.getString();
-		if (allTasks.containsKey(name)) {
-			allTasks.remove(name);
+		if (journal.deleteTask(name)) {
 			view.printRemoveSuccesfull();
-			System.out.println("Успешное удаление");
 		} else {
-			System.out.println("Задача не найдена");
-		}		
+			view.printRemoveFailed();	
+		}
 	}
-
-	/**
-	 * @see Journal
-	 */
+	
 	public void viewTasks() {
-		journal.viewTasks();
+		if (journal.isEmpty()) {
+			view.showEmptyJournal(journal.getName());
+		} else {
+			int i = 0;
+			for (Task task : journal.getTasks().values()) {
+				view.printNumberOfTasks(i++); 	// TODO ПРОВЕРИТЬ!!!
+				taskController.showTask(task);
+			}
+		}
+	
 	}
 
 }

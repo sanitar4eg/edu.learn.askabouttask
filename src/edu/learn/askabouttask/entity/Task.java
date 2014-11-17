@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import edu.learn.askabouttask.addition.DateFormatter;
 import edu.learn.askabouttask.addition.NotificationSystem;
 
-//TODO: [Vyacheslav Zh.] Зачем делать get -методы private?
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(propOrder = {"name", "description", "minderTime", "contacts"}, name = "task")
 public class Task {
@@ -44,7 +43,7 @@ public class Task {
 		setReminder();
 	}
 
-	private String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
@@ -53,7 +52,7 @@ public class Task {
 	}
 
 	@XmlJavaTypeAdapter(DateFormatter.class)
-	private Date getMinderTime() {
+	public final Date getMinderTime() {
 		return minderTime;
 	}
 
@@ -62,7 +61,7 @@ public class Task {
 		setReminder();
 	}
 
-	private String getContacts() {
+	public String getContacts() {
 		return contacts;
 	}
 
@@ -76,17 +75,14 @@ public class Task {
 				reminder = new NotificationSystem(minderTime, name);
 			}
 	}
-	
-	// TODO: [Vyacheslav Zh.] Этот метод - часть UI. В соотвествии с заданием пользовательский интерфейс должен быть в отдельном классе.
-	public void viewTask () {
-		System.out.println(getName());
-		System.out.println("Описание: " + getDescription());
-		System.out.println("Время: " + getMinderTime());
-		System.out.println("Контакты: " + getContacts());
-	}
-	
+		
 	public void eraseReminder() {
 		reminder.cancelReminder();
+	}
+
+	public void setShedule() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

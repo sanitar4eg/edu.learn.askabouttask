@@ -48,7 +48,7 @@ public class NotificationSystem {
 			String mainClassName = attr.getValue("Main-Class");
 			// TODO: [Vyacheslav Zh.] проще использовать file.toURL()
 		    URL url = new URL("file", null, file.getAbsolutePath());  
-		    ClassLoader cl = new URLClassLoader(new URL[] {url});  
+		    ClassLoader cl = new URLClassLoader(new URL[] {file.toURL()});  //TODO Deprecated method
 		    Class mainClass = cl.loadClass(mainClassName);  
 		    Method mainMethod = mainClass.getMethod("main", new Class[] {String[].class});  
 		    String[] args2 = {"-n", this.nameTask};
