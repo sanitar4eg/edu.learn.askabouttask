@@ -78,15 +78,15 @@ public class Journal {
 	
 	// TODO: [Vyacheslav Zh.] Название подобрано не очень оптимально - такое впечатление что дочерние объекты - Task
 	// будут удалены. По факту - нет.
-	public void eraseTasks() {
+	public void cancelShedules() {
 		for (Task task : tasks.values()) {
-			task.eraseReminder();
+			task.cancelShedule();
 		}
 	}
 
 	public void addTask(Task task/* ... task properties .. */) {
 		tasks.put(task.getName(), task);
-		task.setShedule();
+		//task.setShedule();
 		// 1 create task, set parameters
 		// 2 add to map
 		// 3 run task.setSchedule() / setReminder

@@ -40,7 +40,7 @@ public class Task {
 
 	private void setName(String name) {
 		this.name = name;
-		setReminder();
+		setShedule();
 	}
 
 	public String getDescription() {
@@ -58,7 +58,7 @@ public class Task {
 
 	private void setMinderTime(Date minderTime) {
 		this.minderTime = minderTime;
-		setReminder();
+		setShedule();
 	}
 
 	public String getContacts() {
@@ -68,21 +68,18 @@ public class Task {
 	private void setContacts(String contacts) {
 		this.contacts = contacts;
 	}
-	
-	private void setReminder() {
-		if (reminder == null)
-			if (name != null && minderTime != null) {
-				reminder = new NotificationSystem(minderTime, name);
-			}
-	}
 		
-	public void eraseReminder() {
-		reminder.cancelReminder();
+	public void cancelShedule() {
+		if (reminder != null)
+			reminder.cancelShedule();
 	}
 
 	public void setShedule() {
-		// TODO Auto-generated method stub
-		
+		if (reminder == null)
+			if (name != null && minderTime != null) {
+				reminder = new NotificationSystem(minderTime, name);
+				reminder.setShedule();
+			}
 	}
 
 }

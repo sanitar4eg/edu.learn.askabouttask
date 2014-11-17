@@ -16,11 +16,8 @@ public class NotificationSystem {
 	
 	public NotificationSystem(Date date, String nameTask) {
 		this.date = date;
-		timer = new Timer();
-		if (new Date().getTime() < date.getTime())
-		    // TODO: [Vyacheslav Zh.] лучше не делать schedule в конструкторе, вместо этого вынести логику в отдельный метод 
-			timer.schedule(nt, date);
 		this.nameTask = nameTask;
+		timer = new Timer();
 	}
 
 	private Timer timer;
@@ -31,9 +28,18 @@ public class NotificationSystem {
 	
 	private NotificationTask nt = new NotificationTask();
 	
+	public void cancelShedule() {
+		timer.cancel();
+	}
+	
+	public void setShedule() {
+		if (new Date().getTime() < date.getTime())
+			timer.schedule(nt, date);
+	}
+	
 	class NotificationTask extends TimerTask {
 		public void run() {
-			System.out.println(nameTask);
+			//System.out.println(nameTask);
 			runWithJarFile();
 			timer.cancel();
 		}
@@ -47,7 +53,7 @@ public class NotificationSystem {
 			Attributes attr = manifest.getMainAttributes();
 			String mainClassName = attr.getValue("Main-Class");
 			// TODO: [Vyacheslav Zh.] проще использовать file.toURL()
-		    URL url = new URL("file", null, file.getAbsolutePath());  
+		    //URL url = new URL("file", null, file.getAbsolutePath());  
 		    ClassLoader cl = new URLClassLoader(new URL[] {file.toURL()});  //TODO Deprecated method
 		    Class mainClass = cl.loadClass(mainClassName);  
 		    Method mainMethod = mainClass.getMethod("main", new Class[] {String[].class});  
@@ -82,9 +88,5 @@ public class NotificationSystem {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void cancelReminder() {
-		timer.cancel();
 	}
 }

@@ -16,9 +16,9 @@ public class ConsoleHelper {
 	
 	public static String getString() {
 		while (true) {
-			if (scanner.hasNext()) 
+			if (scanner.hasNext()) {
 				return scanner.next();
-			else{
+			} else {
 				scanner.next();
 				System.out.println(WRONG_INPUT);	
 			}
@@ -60,12 +60,11 @@ public class ConsoleHelper {
 					if (date != null)
 						return date;
 				} catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
-			} else {
-				scanner.next();
-				System.out.println(WRONG_INPUT);
 			}
+			scanner.next();
+			System.out.println(WRONG_INPUT);
 		}
 	}
 }

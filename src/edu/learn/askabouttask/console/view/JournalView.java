@@ -31,7 +31,7 @@ public class JournalView
 	
 	public void showJournalInfo(String name, int count) {
 		System.out.println("Планировщик " + name + 
-				" содержит следующее количество задач: " + count);
+				" содержит: " + count);
 	}
 
 	public void printSelectTaskName() {

@@ -135,13 +135,14 @@ public class JournalController
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		view.showJournalInfo(journal.getName(), journal.getCount());
 	}
 
 	/**
 	 * @see Journal
 	 */
 	public void exit() {
-		journal.eraseTasks();
+		journal.cancelShedules();
 	}
 
 
@@ -171,7 +172,7 @@ public class JournalController
 		if (journal.isEmpty()) {
 			view.showEmptyJournal(journal.getName());
 		} else {
-			int i = 0;
+			int i = 1;
 			for (Task task : journal.getTasks().values()) {
 				view.printNumberOfTasks(i++); 	// TODO ПРОВЕРИТЬ!!!
 				taskController.showTask(task);
