@@ -1,10 +1,6 @@
 package edu.learn.askabouttask.console.controller;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
@@ -39,7 +35,7 @@ public class JournalController
 	 */
 	public void start() {
 		view.printStartMenu();
-
+		
 		StartAction[] allActions = StartAction.values();
 		int choice = ConsoleHelper.getInt(1, 3);
 		StartAction selectedAction = allActions[choice - 1];
@@ -65,9 +61,11 @@ public class JournalController
 	void choiceOfAction() {
 		while (true) {
 			view.printMainMenu();
+			
 			int choice = ConsoleHelper.getInt(1 ,6);
 			MainAction[] allActions = MainAction.values();
 			MainAction selectedAction = allActions[choice - 1];
+			
 			switch (selectedAction) {
 			case TASK_LIST:
 				viewTasks();
@@ -99,10 +97,10 @@ public class JournalController
 	 * Метод создает новый журнал и помещает в поле current
 	 */
 	public void createJournal() {
-		view.enterNameJournal();
+		view.printRequestForNameJournal();
 		String name = ConsoleHelper.getString();
 		journal = new Journal(name);
-		view.showJournalInfo(name, journal.getCount());
+		view.printJournalInfo(name, journal.getCount());
 	}
 
 	/**
@@ -110,9 +108,9 @@ public class JournalController
 	 */
 	public void viewInfo() {
 		if (journal.isEmpty()) {
-			view.showEmptyJournal(journal.getName());
+			view.printEmptyJournal(journal.getName());
 		} else {
-			view.showJournalInfo(journal.getName(), journal.getCount());
+			view.printJournalInfo(journal.getName(), journal.getCount());
 		}
 	}
 
@@ -135,7 +133,7 @@ public class JournalController
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		view.showJournalInfo(journal.getName(), journal.getCount());
+		view.printJournalInfo(journal.getName(), journal.getCount());
 	}
 
 	/**
@@ -159,7 +157,7 @@ public class JournalController
 	 * @see Journal
 	 */
 	public void deleteTask() {
-		view.printSelectTaskName();
+		view.printRequestForTaskName();
 		String name = ConsoleHelper.getString();
 		if (journal.deleteTask(name)) {
 			view.printRemoveSuccesfull();
@@ -170,11 +168,11 @@ public class JournalController
 	
 	public void viewTasks() {
 		if (journal.isEmpty()) {
-			view.showEmptyJournal(journal.getName());
+			view.printEmptyJournal(journal.getName());
 		} else {
 			int i = 1;
 			for (Task task : journal.getTasks().values()) {
-				view.printNumberOfTasks(i++); 	// TODO ПРОВЕРИТЬ!!!
+				view.printNumberOfTasks(i++);
 				taskController.showTask(task);
 			}
 		}

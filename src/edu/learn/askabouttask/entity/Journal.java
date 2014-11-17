@@ -1,20 +1,13 @@
 package edu.learn.askabouttask.entity;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import edu.learn.askabouttask.addition.MapAdapter;
 
 
 /**
@@ -75,9 +68,7 @@ public class Journal {
 			return false;			
 		}
 	}
-	
-	// TODO: [Vyacheslav Zh.] Название подобрано не очень оптимально - такое впечатление что дочерние объекты - Task
-	// будут удалены. По факту - нет.
+
 	public void cancelShedules() {
 		for (Task task : tasks.values()) {
 			task.cancelShedule();

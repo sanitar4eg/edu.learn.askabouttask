@@ -14,30 +14,26 @@ import java.util.jar.Manifest;
 
 public class NotificationSystem {
 	
-	public NotificationSystem(Date date, String nameTask) {
-		this.date = date;
-		this.nameTask = nameTask;
-		timer = new Timer();
-	}
+	public NotificationSystem() {}
 
 	private Timer timer;
 	
 	private String nameTask;
 	
-	private Date date;
-	
 	private NotificationTask nt = new NotificationTask();
 	
 	public void cancelShedule() {
-		timer.cancel();
+		if (timer != null) 
+			timer.cancel();
 	}
 	
-	public void setShedule() {
-		if (new Date().getTime() < date.getTime())
-			timer.schedule(nt, date);
+	public void setShedule(Date date, String nameTask) {
+		this.nameTask = nameTask;
+		timer = new Timer();
+		timer.schedule(nt, date);
 	}
 	
-	class NotificationTask extends TimerTask {
+	private class NotificationTask extends TimerTask {
 		public void run() {
 			//System.out.println(nameTask);
 			runWithJarFile();

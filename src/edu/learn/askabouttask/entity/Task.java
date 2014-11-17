@@ -68,18 +68,20 @@ public class Task {
 	private void setContacts(String contacts) {
 		this.contacts = contacts;
 	}
-		
-	public void cancelShedule() {
-		if (reminder != null)
-			reminder.cancelShedule();
-	}
 
 	public void setShedule() {
 		if (reminder == null)
 			if (name != null && minderTime != null) {
-				reminder = new NotificationSystem(minderTime, name);
-				reminder.setShedule();
+				if (new Date().getTime() < minderTime.getTime()) {
+					reminder = new NotificationSystem();
+					reminder.setShedule(minderTime, name);
+				}
 			}
+	}
+		
+	public void cancelShedule() {
+		if (reminder != null)
+			reminder.cancelShedule();
 	}
 
 }

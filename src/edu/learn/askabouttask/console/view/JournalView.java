@@ -21,20 +21,20 @@ public class JournalView
 		}
 	}
 	
-	public void enterNameJournal() {
+	public void printRequestForNameJournal() {
 		System.out.println("Введите имя планировщика");
 	}
 	
-	public void showEmptyJournal(String name) {
+	public void printEmptyJournal(String name) {
 		System.out.println("Планировщик " + name + " пуст");
 	}
 	
-	public void showJournalInfo(String name, int count) {
+	public void printJournalInfo(String name, int count) {
 		System.out.println("Планировщик " + name + 
 				" содержит: " + count);
 	}
 
-	public void printSelectTaskName() {
+	public void printRequestForTaskName() {
 		System.out.println("Введите название задачи");
 	}
 
