@@ -6,25 +6,27 @@ import java.util.Scanner;
 
 public class ConsoleHelper {
 	
+	private ConsoleHelper (){}
+
 	public final static String DATE_FORMAT = "yyyy.MM.dd'at'HH:mm";
-	
+
 	private static Scanner scanner = new Scanner(System.in);
-	
+
 	private final static String WRONG_INPUT = "Неверные данные, попробуйте еще раз";
-	
+
 	public static SimpleDateFormat formater = new SimpleDateFormat(DATE_FORMAT);
-	
+
 	public static String getString() {
 		while (true) {
 			if (scanner.hasNext()) {
 				return scanner.next();
 			} else {
 				scanner.next();
-				System.out.println(WRONG_INPUT);	
+				System.out.println(WRONG_INPUT);
 			}
 		}
 	}
-	
+
 	public static int getInt() {
 		while (true) {
 			if (scanner.hasNextInt()) {
@@ -32,9 +34,20 @@ public class ConsoleHelper {
 				return result;
 			} else {
 				scanner.next();
-				System.out.println(WRONG_INPUT);	
+				System.out.println(WRONG_INPUT);
 			}
 		}
+	}
+
+	public static Integer getInt2() {
+		if (!scanner.hasNextInt()) {
+			scanner.next();
+		}
+		Integer result = null;
+		if (scanner.hasNextInt()) {
+			result = Integer.valueOf(scanner.nextInt());
+		}
+		return result;
 	}
 
 	public static int getInt(int min, int max) {
@@ -45,11 +58,11 @@ public class ConsoleHelper {
 					return result;
 			} else {
 				scanner.next();
-				System.out.println(WRONG_INPUT);	
+				System.out.println(WRONG_INPUT);
 			}
 		}
 	}
-	
+
 	public static Date getDate() {
 		System.out.println("Формат для ввода даты: " + DATE_FORMAT);
 		Date date;
@@ -60,7 +73,7 @@ public class ConsoleHelper {
 					if (date != null)
 						return date;
 				} catch (Exception e) {
-					//e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 			scanner.next();

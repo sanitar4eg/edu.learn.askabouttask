@@ -11,30 +11,31 @@ import edu.learn.askabouttask.addition.DateFormatter;
 import edu.learn.askabouttask.addition.NotificationSystem;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(propOrder = {"name", "description", "minderTime", "contacts"}, name = "task")
+@XmlType(propOrder = { "name", "description", "minderTime", "contacts" }, name = "task")
 public class Task {
-	
-	protected Task () {}
-	
-	public Task (String name, String description, Date minderTime,
+
+	protected Task() {
+	}
+
+	public Task(String name, String description, Date minderTime,
 			String contacts) {
 		this.setName(name);
 		this.setDescription(description);
 		this.setMinderTime(minderTime);
 		this.setContacts(contacts);
 	}
-	
+
 	private String name;
-	
+
 	private String description;
-	
+
 	private Date minderTime;
-	
+
 	private String contacts;
-	
+
 	private NotificationSystem reminder;
-	
-	public String getName () {
+
+	public String getName() {
 		return this.name;
 	}
 
@@ -78,7 +79,7 @@ public class Task {
 				}
 			}
 	}
-		
+
 	public void cancelShedule() {
 		if (reminder != null)
 			reminder.cancelShedule();

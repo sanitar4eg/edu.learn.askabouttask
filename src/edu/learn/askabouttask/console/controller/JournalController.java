@@ -63,6 +63,13 @@ public class JournalController
 			view.printMainMenu();
 			
 			int choice = ConsoleHelper.getInt(1 ,6);
+			
+			// alternative:
+			Integer choice2 = null;
+			while ((choice2 = ConsoleHelper.getInt2()) == null) {
+				view.printWrongInput();
+			}
+			
 			MainAction[] allActions = MainAction.values();
 			MainAction selectedAction = allActions[choice - 1];
 			
@@ -149,7 +156,7 @@ public class JournalController
 	 * @see Journal
 	 */
 	public void addTask() {
-		journal.addTask(taskController.getTask());
+		journal.addTask(taskController.createTask());
 	}
 
 	/**
@@ -171,7 +178,7 @@ public class JournalController
 			view.printEmptyJournal(journal.getName());
 		} else {
 			int i = 1;
-			for (Task task : journal.getTasks().values()) {
+			for (Task task : journal.getTasks()) {
 				view.printNumberOfTasks(i++);
 				taskController.showTask(task);
 			}
