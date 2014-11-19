@@ -34,6 +34,9 @@ public class Task {
 	private String contacts;
 
 	private NotificationSystem reminder;
+	
+	//TODO: Можно ли обойтись константой для облегчения задачи?
+	private final String REMINDER_APPLICATION = "src/resources/Reminder.jar"; 
 
 	public String getName() {
 		return this.name;
@@ -41,7 +44,6 @@ public class Task {
 
 	private void setName(String name) {
 		this.name = name;
-		setShedule();
 	}
 
 	public String getDescription() {
@@ -59,7 +61,6 @@ public class Task {
 
 	private void setMinderTime(Date minderTime) {
 		this.minderTime = minderTime;
-		setShedule();
 	}
 
 	public String getContacts() {
@@ -69,15 +70,21 @@ public class Task {
 	private void setContacts(String contacts) {
 		this.contacts = contacts;
 	}
+	
+	public String getReminderApplication () {
+		return REMINDER_APPLICATION;
+	}
 
-	public void setShedule() {
+	public boolean setShedule() {
 		if (reminder == null)
 			if (name != null && minderTime != null) {
 				if (new Date().getTime() < minderTime.getTime()) {
 					reminder = new NotificationSystem();
-					reminder.setShedule(minderTime, name);
+					reminder.setShedule(this);
+					return true;
 				}
 			}
+		return false;
 	}
 
 	public void cancelShedule() {

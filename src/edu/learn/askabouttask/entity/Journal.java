@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -14,6 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+
+import sun.security.krb5.internal.PAEncTSEnc;
 
 /**
  * Класс представляющий модель Журнала
@@ -44,6 +47,18 @@ public class Journal {
 		this.name = name;
 	}
 
+	public int getCount() {
+		return tasks.size();
+	}
+
+	public boolean isEmpty() {
+		return tasks.isEmpty();
+	}
+
+	private void setTasks(Map<String, Task> tasks) {
+		this.tasks = tasks;
+	}
+
 	@XmlTransient
 	public final Collection<Task> getTasks() {
 		if (tasks == null) {
@@ -53,15 +68,16 @@ public class Journal {
 		}
 	}
 
-	private void setTasks(Map<String, Task> tasks) {
-		this.tasks = tasks;
-	}
-
 	// for JAXB only
 	@XmlElementWrapper(name = "tasks")
-	@XmlElement(name = "task", type = ArrayList.class)
+	@XmlElement(name = "task") //, type = ArrayList.class
 	private Collection<Task> getTasksAsArray() {
-		return tasks.values();
+		// TODO: Выкидывал NPE при unmarshalling без проверки
+		if (tasks != null) {
+				return tasks.values();
+		} else {
+			return null;
+		}
 	}
 
 	// for JAXB only
@@ -71,17 +87,18 @@ public class Journal {
 		} else {
 			this.tasks.clear();
 		}
+		// TODO: Выкидывал ClassCastException не мог преобразовать ArrayList to Task
+		// при unmarshaling
 		for (Task t : tasks) {
 			this.tasks.put(t.getName(), t);
 		}
 	}
-
-	public int getCount() {
-		return tasks.size();
-	}
-
-	public boolean isEmpty() {
-		return tasks.isEmpty();
+	
+	private void afterUnmarshal(Unmarshaller u, Journal parent) {
+		if (parent.tasks != null)
+			for (Task task : parent.tasks.values()) {
+				task.setShedule();
+			}
 	}
 
 	public boolean deleteTask(String name) {
@@ -99,12 +116,9 @@ public class Journal {
 		}
 	}
 
-	public void addTask(Task task/* ... task properties .. */) {
+	public void addTask(Task task) {
+		task.setShedule();
 		tasks.put(task.getName(), task);
-		// task.setShedule();
-		// 1 create task, set parameters
-		// 2 add to map
-		// 3 run task.setSchedule() / setReminder
 	}
 
 }

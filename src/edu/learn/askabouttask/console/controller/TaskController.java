@@ -26,7 +26,7 @@ public class TaskController {
 		// менять формат вывода, в том числе для даты (не передавать ее
 		// отформатированной)
 		view.showTask(task.getName(), task.getDescription(),
-				ConsoleHelper.formater.format(task.getMinderTime()),
+				task.getMinderTime(),
 				task.getContacts());
 	}
 
