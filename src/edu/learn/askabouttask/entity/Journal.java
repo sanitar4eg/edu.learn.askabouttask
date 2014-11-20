@@ -1,6 +1,5 @@
 package edu.learn.askabouttask.entity;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,8 +14,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-
-import sun.security.krb5.internal.PAEncTSEnc;
 
 /**
  * Класс представляющий модель Журнала
@@ -72,7 +69,6 @@ public class Journal {
 	@XmlElementWrapper(name = "tasks")
 	@XmlElement(name = "task") //, type = ArrayList.class
 	private Collection<Task> getTasksAsArray() {
-		// TODO: Выкидывал NPE при unmarshalling без проверки
 		if (tasks != null) {
 				return tasks.values();
 		} else {
@@ -87,16 +83,16 @@ public class Journal {
 		} else {
 			this.tasks.clear();
 		}
-		// TODO: Выкидывал ClassCastException не мог преобразовать ArrayList to Task
-		// при unmarshaling
 		for (Task t : tasks) {
 			this.tasks.put(t.getName(), t);
 		}
 	}
 	
-	private void afterUnmarshal(Unmarshaller u, Journal parent) {
-		if (parent.tasks != null)
-			for (Task task : parent.tasks.values()) {
+	// TODO: Решил проблему с установкой shedule после анмаршалинга,
+	// Не уверен что правильно
+	private void afterUnmarshal(final Unmarshaller u, final Object parent) {
+		if (this.tasks != null)
+			for (Task task : this.tasks.values()) {
 				task.setShedule();
 			}
 	}

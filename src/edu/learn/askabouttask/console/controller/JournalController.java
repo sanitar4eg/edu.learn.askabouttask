@@ -10,74 +10,77 @@ import edu.learn.askabouttask.console.view.JournalView;
 import edu.learn.askabouttask.entity.Journal;
 import edu.learn.askabouttask.entity.Task;
 
-
 /**
  * Класс обеспчивающий взаимодействие с пользователем.
- *
+ * 
  */
-public class JournalController
-{
+public class JournalController {
+	
 	private JournalView view = new JournalView(); // controller
-	
+
 	private TaskController taskController = new TaskController();
-	
+
 	/**
 	 * Данный объект может быть сохранен в XML файл, а так же загружен из него
+	 * 
 	 * @see Journal
-	 * @serialField 
+	 * @serialField
 	 */
 	private Journal journal; // model
 
 	/**
-	 * Метод обеспечивающий, либо создание нового планировщика, 
-	 * либо загрузку существующего из XML файла
+	 * Метод обеспечивающий, либо создание нового планировщика, либо загрузку
+	 * существующего из XML файла
+	 * 
 	 * @see JournalInterface
 	 */
 	public void start() {
 		view.printStartMenu();
-		
+
 		StartAction[] allActions = StartAction.values();
-		int choice = ConsoleHelper.getInt(1, 3);
+		Integer choice = null;
+		while ((choice = ConsoleHelper.getInt(1, 3)) == null) {
+			view.printWrongInput();
+		}
 		StartAction selectedAction = allActions[choice - 1];
-		
+
 		switch (selectedAction) {
-			case CREATE_JOURNAL:
-				createJournal();
-				choiceOfAction();
-				break;
-			case OPEN_JOURNAL:
-				openJournal();
-				choiceOfAction();
-				break;
-			case EXIT:
-				return;
+		case CREATE_JOURNAL:
+			createJournal();
+			choiceOfAction();
+			break;
+		case OPEN_JOURNAL:
+			openJournal();
+			choiceOfAction();
+			break;
+		case EXIT:
+			return;
+		default:
+			view.printWrongInput();
 		}
 	}
 
 	/**
 	 * Метод предназначен для работы с Журналом
+	 * 
 	 * @see JournalInterface
 	 */
 	void choiceOfAction() {
 		while (true) {
 			view.printMainMenu();
-			
-			int choice = ConsoleHelper.getInt(1 ,6);
-			
-			// alternative:
-			Integer choice2 = null;
-			while ((choice2 = ConsoleHelper.getInt2()) == null) {
+
+			Integer choice = null;
+			while ((choice = ConsoleHelper.getInt()) == null) {
 				view.printWrongInput();
 			}
-			
 			MainAction[] allActions = MainAction.values();
 			MainAction selectedAction = allActions[choice - 1];
-			
+
 			switch (selectedAction) {
 			case TASK_LIST:
 				viewTasks();
 				break;
-			case ADD_TASK: 
+			case ADD_TASK:
 				addTask();
 				break;
 			case REMOVE_TASK:
@@ -96,6 +99,8 @@ public class JournalController
 			case EXIT:
 				exit();
 				return;
+			default:
+				view.printWrongInput();
 			}
 		}
 	}
@@ -105,9 +110,26 @@ public class JournalController
 	 */
 	public void createJournal() {
 		view.printRequestForNameJournal();
-		String name = ConsoleHelper.getString();
+		String name = null;
+		while ((name = ConsoleHelper.getString()) == null) {
+			view.printWrongInput();
+		}
 		journal = new Journal(name);
 		view.printJournalInfo(name, journal.getCount());
+	}
+
+	/**
+	 * Открывает объект из файла
+	 */
+	public void openJournal() {
+		Parser p = new JAXBParser();
+		try {
+			journal = (Journal) p
+					.getObject(Journal.class, new File("jaxb.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		view.printJournalInfo(journal.getName(), journal.getCount());
 	}
 
 	/**
@@ -121,58 +143,6 @@ public class JournalController
 		}
 	}
 
-	/**
-	 * Сохраняет объект в файл
-	 * @throws JAXBException 
-	 */
-	public void save() throws JAXBException {
-		Parser p = new JAXBParser();
-		p.saveObject(journal, new File ("jaxb.xml"));
-	}
-
-	/**
-	 * Открывает объект из файла
-	 */
-	public void openJournal() {
-		Parser p = new JAXBParser();
-		try {
-			journal = (Journal) p.getObject(Journal.class, new File("jaxb.xml"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		view.printJournalInfo(journal.getName(), journal.getCount());
-	}
-
-	/**
-	 * @see Journal
-	 */
-	public void exit() {
-		journal.cancelShedules();
-	}
-
-
-	/**
-	 * Метод добавляет новую задачу в журнал
-	 * @see Journal
-	 */
-	public void addTask() {
-		journal.addTask(taskController.createTask());
-	}
-
-	/**
-	 * Метод удаляет задачу из журнала 
-	 * @see Journal
-	 */
-	public void deleteTask() {
-		view.printRequestForTaskName();
-		String name = ConsoleHelper.getString();
-		if (journal.deleteTask(name)) {
-			view.printRemoveSuccesfull();
-		} else {
-			view.printRemoveFailed();	
-		}
-	}
-	
 	public void viewTasks() {
 		if (journal.isEmpty()) {
 			view.printEmptyJournal(journal.getName());
@@ -183,7 +153,51 @@ public class JournalController
 				taskController.showTask(task);
 			}
 		}
-	
+
+	}
+
+	/**
+	 * Метод добавляет новую задачу в журнал
+	 * 
+	 * @see Journal
+	 */
+	public void addTask() {
+		journal.addTask(taskController.createTask());
+	}
+
+	/**
+	 * Метод удаляет задачу из журнала
+	 * 
+	 * @see Journal
+	 */
+	public void deleteTask() {
+		view.printRequestForTaskName();
+		String name = null;
+		while ((name = ConsoleHelper.getString()) == null) {
+			view.printWrongInput();
+		}
+		if (journal.deleteTask(name)) {
+			view.printRemoveSuccesfull();
+		} else {
+			view.printRemoveFailed();
+		}
+	}
+
+	/**
+	 * Сохраняет объект в файл
+	 * 
+	 * @throws JAXBException
+	 */
+	public void save() throws JAXBException {
+		Parser p = new JAXBParser();
+		p.saveObject(journal, new File("jaxb.xml"));
+	}
+
+	/**
+	 * @see Journal
+	 */
+	public void exit() {
+		journal.cancelShedules();
 	}
 
 }

@@ -10,24 +10,32 @@ public class TaskController {
 	TaskView view = new TaskView();
 
 	public Task createTask() {
-		view.enterTaskName();
-		String name = ConsoleHelper.getString();
-		view.enterTaskDescription();
-		String description = ConsoleHelper.getString();
-		view.enterTaskTime();
-		Date minderTime = ConsoleHelper.getDate();
-		view.enterTaskContacts();
-		String contacts = ConsoleHelper.getString();
+		view.printRequestForTaskName();
+		String name = null;
+		while ((name = ConsoleHelper.getString()) == null) {
+			view.printWrongInput();
+		}
+		view.printRequestForTaskDescription();
+		String description = null;
+		while ((description = ConsoleHelper.getString()) == null) {
+			view.printWrongInput();
+		}
+		view.printRequestForTaskTime();
+		Date minderTime = null;
+		while ((minderTime = ConsoleHelper.getDate()) == null) {
+			view.printWrongInput();
+		}
+		view.printRequestForTaskContacts();
+		String contacts = null;
+		while ((contacts = ConsoleHelper.getString()) == null) {
+			view.printWrongInput();
+		}
 		return new Task(name, description, minderTime, contacts);
 	}
 
 	public void showTask(Task task) {
-		// view лучше реализовать так что бы оставалась возможность
-		// менять формат вывода, в том числе для даты (не передавать ее
-		// отформатированной)
-		view.showTask(task.getName(), task.getDescription(),
-				task.getMinderTime(),
-				task.getContacts());
+		view.showTaskInfo(task.getName(), task.getDescription(),
+				task.getMinderTime(), task.getContacts());
 	}
 
 }
