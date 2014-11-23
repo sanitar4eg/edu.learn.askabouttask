@@ -4,16 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class ConsoleHelper {
+public final class ConsoleHelper {
 
 	private ConsoleHelper() {
 	}
 
-	public final static String DATE_FORMAT = "yyyy.MM.dd'at'HH:mm";
+	public static final String DATE_FORMAT = "yyyy.MM.dd'at'HH:mm";
 
 	private static Scanner scanner = new Scanner(System.in);
 
-	public static SimpleDateFormat formater = new SimpleDateFormat(DATE_FORMAT);
+	public static final SimpleDateFormat FORMATER = 
+			new SimpleDateFormat(DATE_FORMAT);
 
 	public static String getString() {
 		String result = null;
@@ -35,9 +36,11 @@ public class ConsoleHelper {
 
 	public static Integer getInt(int min, int max) {
 		Integer result;
-		if ((result = getInt()) != null)
-			if (result < min || result > max)
+		if ((result = getInt()) != null) {
+			if (result < min || result > max) {
 				result = null;
+			}
+		}
 		return result;
 	}
 
@@ -45,7 +48,7 @@ public class ConsoleHelper {
 		Date date = null;
 		if (scanner.hasNext()) {
 			try {
-				date = formater.parse(scanner.next());
+				date = FORMATER.parse(scanner.next());
 			} catch (Exception e) {
 				date = null;
 			}

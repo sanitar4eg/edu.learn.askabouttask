@@ -5,7 +5,8 @@ import edu.learn.askabouttask.console.controller.StartAction;
 
 public class JournalView {
 
-	private final static String WRONG_INPUT = "Неверные данные, попробуйте еще раз";
+	private static final String WRONG_INPUT = 
+			"Неверные данные, попробуйте еще раз";
 
 	public void printMainMenu() {
 		System.out.println("Выберите что требуется сделать");
@@ -49,8 +50,8 @@ public class JournalView {
 		System.out.println("Задача не найдена");
 	}
 
-	public void printNumberOfTasks(int i) {
-		System.out.println("Задача №" + i);
+	public void printNumberOfTasks(int number) {
+		System.out.println("Задача №" + number);
 	}
 
 	public void printWrongInput() {

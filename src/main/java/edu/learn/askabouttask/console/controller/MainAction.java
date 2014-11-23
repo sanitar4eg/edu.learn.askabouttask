@@ -10,8 +10,8 @@ public enum MainAction {
 
 	private String description;
 
-	MainAction(String description) {
-		this.description = description;
+	MainAction(String inDescription) {
+		this.description = inDescription;
 	}
 
 	public String getDescription() {

@@ -7,8 +7,8 @@ public enum StartAction {
 
 	private String description;
 
-	StartAction(String description) {
-		this.description = description;
+	StartAction(String inDescription) {
+		this.description = inDescription;
 	}
 
 	public String getDescription() {

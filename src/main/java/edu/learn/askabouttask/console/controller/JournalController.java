@@ -15,13 +15,13 @@ import edu.learn.askabouttask.entity.Task;
  * 
  */
 public class JournalController {
-	
+
 	private JournalView view = new JournalView(); // controller
 
 	private TaskController taskController = new TaskController();
 
 	/**
-	 * Данный объект может быть сохранен в XML файл, а так же загружен из него
+	 * Данный объект может быть сохранен в XML файл, а так же загружен из него.
 	 * 
 	 * @see Journal
 	 * @serialField
@@ -30,7 +30,7 @@ public class JournalController {
 
 	/**
 	 * Метод обеспечивающий, либо создание нового планировщика, либо загрузку
-	 * существующего из XML файла
+	 * существующего из XML файла.
 	 * 
 	 * @see JournalInterface
 	 */
@@ -39,7 +39,8 @@ public class JournalController {
 
 		StartAction[] allActions = StartAction.values();
 		Integer choice = null;
-		while ((choice = ConsoleHelper.getInt(1, 3)) == null) {
+		while ((choice = ConsoleHelper.
+				getInt(1, StartAction.values().length)) == null) {
 			view.printWrongInput();
 		}
 		StartAction selectedAction = allActions[choice - 1];
@@ -61,7 +62,7 @@ public class JournalController {
 	}
 
 	/**
-	 * Метод предназначен для работы с Журналом
+	 * Метод предназначен для работы с Журналом.
 	 * 
 	 * @see JournalInterface
 	 */
@@ -70,7 +71,8 @@ public class JournalController {
 			view.printMainMenu();
 
 			Integer choice = null;
-			while ((choice = ConsoleHelper.getInt()) == null) {
+			while ((choice = ConsoleHelper.getInt(1, 
+					MainAction.values().length)) == null) {
 				view.printWrongInput();
 			}
 			MainAction[] allActions = MainAction.values();
@@ -106,7 +108,7 @@ public class JournalController {
 	}
 
 	/**
-	 * Метод создает новый журнал и помещает в поле current
+	 * Метод создает новый журнал и помещает в поле current.
 	 */
 	public void createJournal() {
 		view.printRequestForNameJournal();
@@ -119,12 +121,12 @@ public class JournalController {
 	}
 
 	/**
-	 * Открывает объект из файла
+	 * Открывает объект из файла.
 	 */
 	public void openJournal() {
-		Parser p = new JAXBParser();
+		Parser parser = new JAXBParser();
 		try {
-			journal = (Journal) p
+			journal = (Journal) parser
 					.getObject(Journal.class, new File("jaxb.xml"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,6 +135,8 @@ public class JournalController {
 	}
 
 	/**
+	 * Show brief information about journal.
+	 * 
 	 * @see Journal
 	 */
 	public void viewInfo() {
@@ -147,9 +151,9 @@ public class JournalController {
 		if (journal.isEmpty()) {
 			view.printEmptyJournal(journal.getName());
 		} else {
-			int i = 1;
+			int number = 1;
 			for (Task task : journal.getTasks()) {
-				view.printNumberOfTasks(i++);
+				view.printNumberOfTasks(number++);
 				taskController.showTask(task);
 			}
 		}
@@ -157,7 +161,7 @@ public class JournalController {
 	}
 
 	/**
-	 * Метод добавляет новую задачу в журнал
+	 * Метод добавляет новую задачу в журнал.
 	 * 
 	 * @see Journal
 	 */
@@ -166,7 +170,7 @@ public class JournalController {
 	}
 
 	/**
-	 * Метод удаляет задачу из журнала
+	 * Метод удаляет задачу из журнала.
 	 * 
 	 * @see Journal
 	 */
@@ -184,16 +188,18 @@ public class JournalController {
 	}
 
 	/**
-	 * Сохраняет объект в файл
+	 * Сохраняет объект в файл.
 	 * 
-	 * @throws JAXBException
+	 * @throws JAXBException JAXBException
 	 */
 	public void save() throws JAXBException {
-		Parser p = new JAXBParser();
-		p.saveObject(journal, new File("jaxb.xml"));
+		Parser parser = new JAXBParser();
+		parser.saveObject(journal, new File("jaxb.xml"));
 	}
 
 	/**
+	 * Performs shutdown.
+	 * 
 	 * @see Journal
 	 */
 	public void exit() {

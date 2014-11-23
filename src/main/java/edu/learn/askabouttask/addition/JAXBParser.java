@@ -1,20 +1,16 @@
 package edu.learn.askabouttask.addition;
 
 import java.io.File;
-import java.sql.Date;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import edu.learn.askabouttask.entity.Journal;
-import edu.learn.askabouttask.entity.Task;
-
 public class JAXBParser implements Parser {
 
 	/**
-	 * Метод осуществляющий загрузку объекта типа {@link Journal} из файла
+	 * Метод осуществляющий загрузку объекта типа {@link Journal} из файла.
 	 * 
 	 * @param file
 	 *            XML файл из которого будет загружен объект
@@ -30,7 +26,7 @@ public class JAXBParser implements Parser {
 	}
 
 	/**
-	 * Метод, сохраняющий объект типа {@link Journal} в файл
+	 * Метод, сохраняющий объект типа {@link Journal} в файл.
 	 * 
 	 * @param file
 	 *            XML файл в который сохранится объект

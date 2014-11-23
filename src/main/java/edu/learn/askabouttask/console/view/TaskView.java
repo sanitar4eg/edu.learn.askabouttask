@@ -6,7 +6,8 @@ import edu.learn.askabouttask.console.controller.ConsoleHelper;
 
 public class TaskView {
 
-	private final static String WRONG_INPUT = "Неверные данные, попробуйте еще раз";
+	private static final String WRONG_INPUT = 
+			"Неверные данные, попробуйте еще раз";
 
 	public void printRequestForTaskName() {
 		System.out.println("Введите название задачи");
@@ -30,7 +31,7 @@ public class TaskView {
 			String contacts) {
 		System.out.println(name);
 		System.out.println("Описание: " + description);
-		System.out.println("Время: " + ConsoleHelper.formater.format(time));
+		System.out.println("Время: " + ConsoleHelper.FORMATER.format(time));
 		System.out.println("Контакты: " + contacts);
 	}
 

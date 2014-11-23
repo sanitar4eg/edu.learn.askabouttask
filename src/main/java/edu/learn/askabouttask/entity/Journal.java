@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Класс представляющий модель Журнала
+ * Класс представляющий модель Журнала.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -28,7 +28,7 @@ public class Journal {
 	}
 
 	public Journal(String inName) {
-		this.setName(inName);
+		setName(inName);
 		setTasks(new HashMap<String, Task>());
 	}
 
@@ -67,10 +67,11 @@ public class Journal {
 
 	// for JAXB only
 	@XmlElementWrapper(name = "tasks")
-	@XmlElement(name = "task") //, type = ArrayList.class
+	@XmlElement(name = "task")
+	// , type = ArrayList.class
 	private Collection<Task> getTasksAsArray() {
 		if (tasks != null) {
-				return tasks.values();
+			return tasks.values();
 		} else {
 			return null;
 		}
@@ -87,14 +88,15 @@ public class Journal {
 			this.tasks.put(t.getName(), t);
 		}
 	}
-	
+
 	// TODO: Решил проблему с установкой shedule после анмаршалинга,
 	// Не уверен что правильно
-	private void afterUnmarshal(final Unmarshaller u, final Object parent) {
-		if (this.tasks != null)
+	private void afterUnmarshal(final Unmarshaller umrsh, final Object parent) {
+		if (this.tasks != null) {
 			for (Task task : this.tasks.values()) {
 				task.setShedule();
 			}
+		}
 	}
 
 	public final boolean deleteTask(String inName) {

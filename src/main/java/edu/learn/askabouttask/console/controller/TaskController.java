@@ -7,7 +7,7 @@ import edu.learn.askabouttask.entity.Task;
 
 public class TaskController {
 
-	TaskView view = new TaskView();
+	private TaskView view = new TaskView();
 
 	public Task createTask() {
 		view.printRequestForTaskName();
