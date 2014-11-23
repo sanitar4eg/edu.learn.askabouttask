@@ -48,15 +48,4 @@ public class JAXBParser implements Parser {
 		}
 	}
 
-/*	public static void main(String[] args) {
-		JAXBParser p = new JAXBParser();
-
-		Journal j = new Journal("test");
-		j.addTask(new Task("task_name", "task_discription", new Date(0),
-				"task_container"));
-		j.addTask(new Task("task_name", "task_discription", new Date(0),
-				"task_container"));
-		p.saveObject(j, new File("test.xml"));
-	}*/
-
 }

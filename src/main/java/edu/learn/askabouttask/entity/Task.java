@@ -55,7 +55,7 @@ public class Task {
 	}
 
 	@XmlJavaTypeAdapter(DateFormatter.class)
-	public final Date getMinderTime() {
+	public final Date getMinderTime() {						
 		return minderTime;
 	}
 

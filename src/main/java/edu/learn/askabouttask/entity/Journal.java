@@ -27,8 +27,8 @@ public class Journal {
 	protected Journal() {
 	}
 
-	public Journal(String name) {
-		this.setName(name);
+	public Journal(String inName) {
+		this.setName(inName);
 		setTasks(new HashMap<String, Task>());
 	}
 
@@ -36,24 +36,24 @@ public class Journal {
 
 	private Map<String, Task> tasks;
 
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
-	private void setName(String name) {
-		this.name = name;
+	private void setName(String inName) {
+		this.name = inName;
 	}
 
-	public int getCount() {
+	public final int getCount() {
 		return tasks.size();
 	}
 
-	public boolean isEmpty() {
+	public final boolean isEmpty() {
 		return tasks.isEmpty();
 	}
 
-	private void setTasks(Map<String, Task> tasks) {
-		this.tasks = tasks;
+	private void setTasks(Map<String, Task> inTasks) {
+		this.tasks = inTasks;
 	}
 
 	@XmlTransient
@@ -77,13 +77,13 @@ public class Journal {
 	}
 
 	// for JAXB only
-	private void setTasksAsArray(Collection<Task> tasks) {
+	private void setTasksAsArray(Collection<Task> inTasks) {
 		if (this.tasks == null) {
 			this.tasks = new HashMap<String, Task>();
 		} else {
 			this.tasks.clear();
 		}
-		for (Task t : tasks) {
+		for (Task t : inTasks) {
 			this.tasks.put(t.getName(), t);
 		}
 	}
@@ -97,9 +97,9 @@ public class Journal {
 			}
 	}
 
-	public boolean deleteTask(String name) {
-		if (tasks.containsKey(name)) {
-			tasks.remove(name);
+	public final boolean deleteTask(String inName) {
+		if (tasks.containsKey(inName)) {
+			tasks.remove(inName);
 			return true;
 		} else {
 			return false;
