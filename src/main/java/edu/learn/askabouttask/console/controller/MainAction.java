@@ -5,6 +5,7 @@ public enum MainAction {
 	ADD_TASK("Добавить задачу"),
 	REMOVE_TASK("Удалить задачу"),
 	SHOW_JOURNAL_INFO("Посмотреть информацию о планировщике"),
+	SHOW_SHEDULED_TASKS("Показать запланированные задачи"),
 	SAVE_JOURNAL("Сохранить планировщик"),
 	EXIT("Выход");
 

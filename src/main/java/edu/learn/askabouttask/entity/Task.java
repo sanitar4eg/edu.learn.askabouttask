@@ -2,13 +2,12 @@ package edu.learn.askabouttask.entity;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import edu.learn.askabouttask.addition.DateFormatter;
-import edu.learn.askabouttask.addition.NotificationSystem;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(propOrder = { "name", "description", 
@@ -34,9 +33,6 @@ public class Task {
 
 	private String contacts;
 
-	private NotificationSystem reminder;
-	
-	//TODO: Можно ли обойтись константой для облегчения задачи?
 	private static final String REMINDER_APPLICATION = 
 			"src/resources/Reminder.jar"; 
 
@@ -76,24 +72,4 @@ public class Task {
 	public final String getReminderApplication() {
 		return REMINDER_APPLICATION;
 	}
-
-	public final boolean setShedule() {
-		if (reminder == null) {
-			if (name != null && minderTime != null) {
-				if (new Date().getTime() < minderTime.getTime()) {
-					reminder = new NotificationSystem();
-					reminder.setShedule(this);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public void cancelShedule() {
-		if (reminder != null) {
-			reminder.cancelShedule();
-		}
-	}
-
 }

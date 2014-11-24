@@ -1,6 +1,9 @@
 package edu.learn.askabouttask.console.controller;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.xml.bind.JAXBException;
 
@@ -9,6 +12,8 @@ import edu.learn.askabouttask.addition.Parser;
 import edu.learn.askabouttask.console.view.JournalView;
 import edu.learn.askabouttask.entity.Journal;
 import edu.learn.askabouttask.entity.Task;
+import edu.learn.askabouttask.notifications.NotificationSystem;
+import edu.learn.askabouttask.notifications.Reminiscentable;
 
 /**
  * Класс обеспчивающий взаимодействие с пользователем.
@@ -19,6 +24,8 @@ public class JournalController {
 	private JournalView view = new JournalView(); // controller
 
 	private TaskController taskController = new TaskController();
+
+	private Collection<Reminiscentable> reminders = new LinkedList<>();
 
 	/**
 	 * Данный объект может быть сохранен в XML файл, а так же загружен из него.
@@ -39,8 +46,8 @@ public class JournalController {
 
 		StartAction[] allActions = StartAction.values();
 		Integer choice = null;
-		while ((choice = ConsoleHelper.
-				getInt(1, StartAction.values().length)) == null) {
+		while ((choice = ConsoleHelper.getInt(
+				1, StartAction.values().length)) == null) {
 			view.printWrongInput();
 		}
 		StartAction selectedAction = allActions[choice - 1];
@@ -71,8 +78,8 @@ public class JournalController {
 			view.printMainMenu();
 
 			Integer choice = null;
-			while ((choice = ConsoleHelper.getInt(1, 
-					MainAction.values().length)) == null) {
+			while ((choice = ConsoleHelper
+					.getInt(1, MainAction.values().length)) == null) {
 				view.printWrongInput();
 			}
 			MainAction[] allActions = MainAction.values();
@@ -91,12 +98,11 @@ public class JournalController {
 			case SHOW_JOURNAL_INFO:
 				viewInfo();
 				break;
+			case SHOW_SHEDULED_TASKS:
+				showSheduledTasks();
+				break;
 			case SAVE_JOURNAL:
-				try {
-					save();
-				} catch (JAXBException e) {
-					e.printStackTrace();
-				}
+				save();
 				break;
 			case EXIT:
 				exit();
@@ -122,16 +128,27 @@ public class JournalController {
 
 	/**
 	 * Открывает объект из файла.
+	 * 
+	 * @return true if successful open
 	 */
-	public void openJournal() {
+	public boolean openJournal() {
 		Parser parser = new JAXBParser();
 		try {
-			journal = (Journal) parser
-					.getObject(Journal.class, new File("jaxb.xml"));
+			journal = (Journal) parser.getObject(Journal.class, new File(
+					"jaxb.xml"));
+			for (Task task : journal.getTasks()) {
+				if (NotificationSystem.isAvailableForMonitoring(task)) {
+					Reminiscentable reminder = new NotificationSystem(task);
+					reminder.setShedule();
+					reminders.add(reminder);
+				}
+			}
+			view.printJournalInfo(journal.getName(), journal.getCount());
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-		view.printJournalInfo(journal.getName(), journal.getCount());
 	}
 
 	/**
@@ -166,7 +183,13 @@ public class JournalController {
 	 * @see Journal
 	 */
 	public void addTask() {
-		journal.addTask(taskController.createTask());
+		Task task = taskController.createTask();
+		if (NotificationSystem.isAvailableForMonitoring(task)) {
+			Reminiscentable reminder = new NotificationSystem(task);
+			reminder.setShedule();
+			reminders.add(reminder);
+		}
+		journal.addTask(task);
 	}
 
 	/**
@@ -177,24 +200,45 @@ public class JournalController {
 	public void deleteTask() {
 		view.printRequestForTaskName();
 		String name = null;
+		Task target;
 		while ((name = ConsoleHelper.getString()) == null) {
 			view.printWrongInput();
 		}
-		if (journal.deleteTask(name)) {
+		if ((target = journal.deleteTask(name)) != null) {
+			reminders.remove(target);
 			view.printRemoveSuccesfull();
 		} else {
 			view.printRemoveFailed();
 		}
 	}
 
+	private void showSheduledTasks() {
+		for (Iterator<Reminiscentable> i = reminders.iterator(); i.hasNext();) {
+			Task task = i.next().getTask();
+			if (NotificationSystem.isAvailableForMonitoring(task)) {
+				taskController.showTask(task);
+			} else {
+				i.remove();
+			}
+		}
+	}
+
 	/**
 	 * Сохраняет объект в файл.
 	 * 
-	 * @throws JAXBException JAXBException
+	 * @throws JAXBException
+	 *             JAXBException
+	 * @return true if successful open
 	 */
-	public void save() throws JAXBException {
-		Parser parser = new JAXBParser();
-		parser.saveObject(journal, new File("jaxb.xml"));
+	public boolean save() {
+		try {
+			Parser parser = new JAXBParser();
+			parser.saveObject(journal, new File("jaxb.xml"));
+			return true;
+		} catch (JAXBException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -203,7 +247,9 @@ public class JournalController {
 	 * @see Journal
 	 */
 	public void exit() {
-		journal.cancelShedules();
+		for (Reminiscentable reminder : reminders) {
+			reminder.cancelShedule();
+		}
 	}
 
 }

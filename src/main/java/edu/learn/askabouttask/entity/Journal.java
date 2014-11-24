@@ -5,9 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -89,33 +88,15 @@ public class Journal {
 		}
 	}
 
-	// TODO: Решил проблему с установкой shedule после анмаршалинга,
-	// Не уверен что правильно
-	private void afterUnmarshal(final Unmarshaller umrsh, final Object parent) {
-		if (this.tasks != null) {
-			for (Task task : this.tasks.values()) {
-				task.setShedule();
-			}
-		}
-	}
-
-	public final boolean deleteTask(String inName) {
+	public final Task deleteTask(String inName) {
 		if (tasks.containsKey(inName)) {
-			tasks.remove(inName);
-			return true;
+			return tasks.remove(inName);
 		} else {
-			return false;
-		}
-	}
-
-	public void cancelShedules() {
-		for (Task task : tasks.values()) {
-			task.cancelShedule();
+			return null;
 		}
 	}
 
 	public void addTask(Task task) {
-		task.setShedule();
 		tasks.put(task.getName(), task);
 	}
 

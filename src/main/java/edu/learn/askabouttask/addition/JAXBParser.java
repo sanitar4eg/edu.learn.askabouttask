@@ -8,7 +8,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class JAXBParser implements Parser {
-
+ 
 	/**
 	 * Метод осуществляющий загрузку объекта типа {@link Journal} из файла.
 	 * 
@@ -32,16 +32,12 @@ public class JAXBParser implements Parser {
 	 *            XML файл в который сохранится объект
 	 */
 	@Override
-	public void saveObject(Object source, File file) {
-		try {
-			JAXBContext context = JAXBContext.newInstance(source.getClass());
-			Marshaller marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-					Boolean.TRUE);
-			marshaller.marshal(source, file);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
+	public void saveObject(Object source, File file) throws JAXBException {
+		JAXBContext context = JAXBContext.newInstance(source.getClass());
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
+				Boolean.TRUE);
+		marshaller.marshal(source, file);
 	}
 
 }
