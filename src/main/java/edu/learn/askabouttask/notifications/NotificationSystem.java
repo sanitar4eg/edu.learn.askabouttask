@@ -12,9 +12,14 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import org.apache.log4j.Logger;
+
 import edu.learn.askabouttask.entity.Task;
 
 public class NotificationSystem implements Reminiscentable {
+	
+	private static final Logger LOGGER = 
+			Logger.getLogger(NotificationSystem.class);
 
 	public NotificationSystem(Task inTask) {
 		this.task = inTask;
@@ -88,7 +93,7 @@ public class NotificationSystem implements Reminiscentable {
 				mainMethod.invoke(mainClass, new Object[] { args2 });
 				jf.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Error in runWithJarFile", e);
 			}
 		}
 
@@ -118,7 +123,7 @@ public class NotificationSystem implements Reminiscentable {
 				err.read(bytes2, 0, bytes2.length);
 				System.out.println(new String(bytes2));
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error("Error in runWithExec", e);
 			}
 		}
 	}

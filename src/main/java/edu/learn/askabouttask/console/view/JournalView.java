@@ -58,4 +58,12 @@ public class JournalView {
 		System.out.println(WRONG_INPUT);
 	}
 
+	public void printErrorOpenJournal() {
+		System.out.println("Неудалось открыть журнал");
+	}
+
+	public void printNoShedulledTasks() {
+		System.out.println("В вашем журнале нет предстоящих задач");
+	}
+
 }

@@ -4,7 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 public final class ConsoleHelper {
+	
+	private static final Logger LOGGER = Logger.getLogger(ConsoleHelper.class);
 
 	private ConsoleHelper() {
 	}
@@ -50,6 +54,9 @@ public final class ConsoleHelper {
 			try {
 				date = FORMATER.parse(scanner.next());
 			} catch (Exception e) {
+				if (LOGGER.isInfoEnabled()) {
+					LOGGER.info("Error in Formatting Date", e);
+				}
 				date = null;
 			}
 		}

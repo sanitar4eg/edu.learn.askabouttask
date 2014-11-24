@@ -7,6 +7,8 @@ import java.util.LinkedList;
 
 import javax.xml.bind.JAXBException;
 
+import org.apache.log4j.Logger;
+
 import edu.learn.askabouttask.addition.JAXBParser;
 import edu.learn.askabouttask.addition.Parser;
 import edu.learn.askabouttask.console.view.JournalView;
@@ -20,6 +22,9 @@ import edu.learn.askabouttask.notifications.Reminiscentable;
  * 
  */
 public class JournalController {
+	
+	private static final Logger LOGGER = 
+			Logger.getLogger(JournalController.class);
 
 	private JournalView view = new JournalView(); // controller
 
@@ -42,29 +47,34 @@ public class JournalController {
 	 * @see JournalInterface
 	 */
 	public void start() {
-		view.printStartMenu();
-
-		StartAction[] allActions = StartAction.values();
-		Integer choice = null;
-		while ((choice = ConsoleHelper.getInt(
-				1, StartAction.values().length)) == null) {
-			view.printWrongInput();
-		}
-		StartAction selectedAction = allActions[choice - 1];
-
-		switch (selectedAction) {
-		case CREATE_JOURNAL:
-			createJournal();
-			choiceOfAction();
-			break;
-		case OPEN_JOURNAL:
-			openJournal();
-			choiceOfAction();
-			break;
-		case EXIT:
-			return;
-		default:
-			view.printWrongInput();
+		while (true) {
+			view.printStartMenu();
+	
+			StartAction[] allActions = StartAction.values();
+			Integer choice = null;
+			while ((choice = ConsoleHelper.getInt(
+					1, StartAction.values().length)) == null) {
+				view.printWrongInput();
+			}
+			StartAction selectedAction = allActions[choice - 1];
+	
+			switch (selectedAction) {
+			case CREATE_JOURNAL:
+				createJournal();
+				choiceOfAction();
+				break;
+			case OPEN_JOURNAL:
+				if (openJournal()) {
+					choiceOfAction();
+				} else {
+					view.printErrorOpenJournal();
+				}
+				break;
+			case EXIT:
+				return;
+			default:
+				view.printWrongInput();
+			}
 		}
 	}
 
@@ -146,7 +156,7 @@ public class JournalController {
 			view.printJournalInfo(journal.getName(), journal.getCount());
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Dont opened Journal", e);
 			return false;
 		}
 	}
@@ -213,12 +223,17 @@ public class JournalController {
 	}
 
 	private void showSheduledTasks() {
-		for (Iterator<Reminiscentable> i = reminders.iterator(); i.hasNext();) {
-			Task task = i.next().getTask();
-			if (NotificationSystem.isAvailableForMonitoring(task)) {
-				taskController.showTask(task);
-			} else {
-				i.remove();
+		if (reminders.isEmpty()) {
+			view.printNoShedulledTasks();
+		} else {
+			for (Iterator<Reminiscentable> i = reminders.iterator();
+					i.hasNext();) {
+				Task task = i.next().getTask();
+				if (NotificationSystem.isAvailableForMonitoring(task)) {
+					taskController.showTask(task);
+				} else {
+					i.remove();
+				}
 			}
 		}
 	}
@@ -236,7 +251,7 @@ public class JournalController {
 			parser.saveObject(journal, new File("jaxb.xml"));
 			return true;
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			LOGGER.error("Dont saved journal", e);
 			return false;
 		}
 	}
