@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.xml.bind.JAXBException;
 
@@ -14,8 +16,9 @@ import edu.learn.askabouttask.addition.Parser;
 import edu.learn.askabouttask.console.view.JournalView;
 import edu.learn.askabouttask.entity.Journal;
 import edu.learn.askabouttask.entity.Task;
+import edu.learn.askabouttask.notifications.NotificationAggregator;
 import edu.learn.askabouttask.notifications.NotificationSystem;
-import edu.learn.askabouttask.notifications.Reminiscentable;
+import edu.learn.askabouttask.notifications.TimerTaskNotification;
 
 /**
  * Класс обеспчивающий взаимодействие с пользователем.
@@ -29,9 +32,7 @@ public class JournalController {
 	private JournalView view = new JournalView(); // controller
 
 	private TaskController taskController = new TaskController();
-
-	private Collection<Reminiscentable> reminders = new LinkedList<>();
-
+	
 	/**
 	 * Данный объект может быть сохранен в XML файл, а так же загружен из него.
 	 * 
@@ -39,6 +40,12 @@ public class JournalController {
 	 * @serialField
 	 */
 	private Journal journal; // model
+
+	private Collection<NotificationSystem> notificationSystems;
+
+	public JournalController(Collection<NotificationSystem> notificationSystems) {
+		this.notificationSystems = notificationSystems;
+	}
 
 	/**
 	 * Метод обеспечивающий, либо создание нового планировщика, либо загрузку
@@ -59,22 +66,25 @@ public class JournalController {
 			StartAction selectedAction = allActions[choice - 1];
 	
 			switch (selectedAction) {
-			case CREATE_JOURNAL:
-				createJournal();
-				choiceOfAction();
-				break;
-			case OPEN_JOURNAL:
-				if (openJournal()) {
+				case CREATE_JOURNAL:
+					createJournal();
 					choiceOfAction();
-				} else {
-					view.printErrorOpenJournal();
-				}
-				break;
-			case EXIT:
-				return;
-			default:
-				view.printWrongInput();
+					
+					break;
+				case OPEN_JOURNAL:
+					if (openJournal()) {
+						choiceOfAction();
+					} else {
+						view.printErrorOpenJournal();
+					}
+					break;
+				case EXIT:
+					return;
+				default:
+					view.printWrongInput();
+					continue;
 			}
+			getNSAggregator().notifyStartAction(selectedAction);
 		}
 	}
 
@@ -96,29 +106,30 @@ public class JournalController {
 			MainAction selectedAction = allActions[choice - 1];
 
 			switch (selectedAction) {
-			case TASK_LIST:
-				viewTasks();
-				break;
-			case ADD_TASK:
-				addTask();
-				break;
-			case REMOVE_TASK:
-				deleteTask();
-				break;
-			case SHOW_JOURNAL_INFO:
-				viewInfo();
-				break;
-			case SHOW_SHEDULED_TASKS:
-				showSheduledTasks();
-				break;
-			case SAVE_JOURNAL:
-				save();
-				break;
-			case EXIT:
-				exit();
-				return;
-			default:
-				view.printWrongInput();
+				case TASK_LIST:
+					viewTasks();
+					break;
+				case ADD_TASK:
+					addTask();
+					break;
+				case REMOVE_TASK:
+					deleteTask();
+					break;
+				case SHOW_JOURNAL_INFO:
+					viewInfo();
+					break;
+				case SHOW_SHEDULED_TASKS:
+					showSheduledTasks();
+					break;
+				case SAVE_JOURNAL:
+					save();
+					break;
+				case EXIT:
+					exit();
+					return;
+				default:
+					view.printWrongInput();
+					continue;
 			}
 		}
 	}
@@ -146,13 +157,9 @@ public class JournalController {
 		try {
 			journal = (Journal) parser.getObject(Journal.class, new File(
 					"jaxb.xml"));
-			for (Task task : journal.getTasks()) {
-				if (NotificationSystem.isAvailableForMonitoring(task)) {
-					Reminiscentable reminder = new NotificationSystem(task);
-					reminder.setShedule();
-					reminders.add(reminder);
-				}
-			}
+
+			getNSAggregator().notifyMainAction(MainAction.ADD_TASK, journal.getTasks());
+			
 			view.printJournalInfo(journal.getName(), journal.getCount());
 			return true;
 		} catch (Exception e) {
@@ -194,12 +201,8 @@ public class JournalController {
 	 */
 	public void addTask() {
 		Task task = taskController.createTask();
-		if (NotificationSystem.isAvailableForMonitoring(task)) {
-			Reminiscentable reminder = new NotificationSystem(task);
-			reminder.setShedule();
-			reminders.add(reminder);
-		}
 		journal.addTask(task);
+		getNSAggregator().notifyMainAction(MainAction.ADD_TASK, task);
 	}
 
 	/**
@@ -215,7 +218,7 @@ public class JournalController {
 			view.printWrongInput();
 		}
 		if ((target = journal.deleteTask(name)) != null) {
-			reminders.remove(target);
+			getNSAggregator().notifyMainAction(MainAction.REMOVE_TASK, target);
 			view.printRemoveSuccesfull();
 		} else {
 			view.printRemoveFailed();
@@ -223,19 +226,19 @@ public class JournalController {
 	}
 
 	private void showSheduledTasks() {
-		if (reminders.isEmpty()) {
+		/*if (journal.getTasks().isEmpty()) {
 			view.printNoShedulledTasks();
 		} else {
 			for (Iterator<Reminiscentable> i = reminders.iterator();
 					i.hasNext();) {
 				Task task = i.next().getTask();
-				if (NotificationSystem.isAvailableForMonitoring(task)) {
+				if (TimerTaskNotification.isAvailableForMonitoring(task)) {
 					taskController.showTask(task);
 				} else {
 					i.remove();
 				}
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -262,9 +265,10 @@ public class JournalController {
 	 * @see Journal
 	 */
 	public void exit() {
-		for (Reminiscentable reminder : reminders) {
-			reminder.cancelShedule();
-		}
+		notificationSystems.clear();
 	}
 
+	private NotificationAggregator getNSAggregator() {
+		return NotificationAggregator.getAggregator(notificationSystems);
+	}
 }

@@ -72,4 +72,8 @@ public class Task {
 	public final String getReminderApplication() {
 		return REMINDER_APPLICATION;
 	}
+
+	public boolean isActive() {
+		return (minderTime.getTime() > new Date().getTime());
+	}
 }
