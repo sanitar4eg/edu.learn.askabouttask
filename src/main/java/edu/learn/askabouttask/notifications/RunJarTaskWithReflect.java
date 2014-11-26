@@ -9,7 +9,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-public class RunJarTask extends TimerTask {
+public class RunJarTaskWithReflect extends TimerTask {
 
 	/**
 	 * 
@@ -18,7 +18,7 @@ public class RunJarTask extends TimerTask {
 	private String path;
 	private String message;
 
-	public RunJarTask(TimerTaskNotification timerTaskNotification, String inPath, String message) {
+	public RunJarTaskWithReflect(TimerTaskNotification timerTaskNotification, String inPath, String message) {
 		RunJarTask = timerTaskNotification;
 		this.path = inPath;
 		this.message = message;

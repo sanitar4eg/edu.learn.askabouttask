@@ -12,7 +12,7 @@ import edu.learn.askabouttask.notifications.NotificationSystem;
 public class Main {
 	
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		InputStream s = ClassLoader.getSystemResourceAsStream("log4j.properties");
+		InputStream s = ClassLoader.getSystemResourceAsStream("application_settings.properties");
 		Properties p = new Properties();
 		p.load(s);
 		s.close();

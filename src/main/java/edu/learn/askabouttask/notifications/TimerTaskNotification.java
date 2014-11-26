@@ -24,17 +24,7 @@ public class TimerTaskNotification implements NotificationSystem {
 		// конструктор по умолчанию для использования Class.forName(...).newInstance
 	}
 
-	private Timer timer = new Timer();
-		
-//	public static boolean isAvailableForMonitoring(Task task) {
-//		if (task != null) {
-//			// TODO move to mode class Task, method - isActive
-//			if (task.getMinderTime().getTime() > new Date().getTime()) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	private Timer timer = new Timer(true);
 
 	/* (non-Javadoc)
 	 * @see edu.learn.askabouttask.notifications.NotificationSystem2#notifyStartAction(edu.learn.askabouttask.console.controller.StartAction)
@@ -63,7 +53,7 @@ public class TimerTaskNotification implements NotificationSystem {
 			for (Task task : tasks) {
 				// TODO ?
 				if (task.isActive()) {
-					RunJarTask runJar = new RunJarTask(this, task.getReminderApplication(), task.getName());
+					RunJarTaskWithReflect runJar = new RunJarTaskWithReflect(this, task.getReminderApplication(), task.getName());
 					timer.schedule(runJar, task.getMinderTime());
 				}
 			}

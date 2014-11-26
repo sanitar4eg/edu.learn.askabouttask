@@ -3,7 +3,7 @@ package edu.learn.askabouttask.notifications;
 import java.io.InputStream;
 import java.util.TimerTask;
 
-public class RunJarTask2 extends TimerTask {
+public class RunJarTaskWithExec extends TimerTask {
 
 	/**
 	 * 
@@ -12,7 +12,7 @@ public class RunJarTask2 extends TimerTask {
 	private String path;
 	private String message;
 
-	public RunJarTask2(TimerTaskNotification timerTaskNotification, String inPath, String message) {
+	public RunJarTaskWithExec(TimerTaskNotification timerTaskNotification, String inPath, String message) {
 		RunJarTask2 = timerTaskNotification;
 		this.path = inPath;
 		this.message = message;
