@@ -3,7 +3,7 @@ package edu.learn.askabouttask.notifications;
 import edu.learn.askabouttask.console.controller.MainAction;
 import edu.learn.askabouttask.console.controller.StartAction;
 
-public interface NotificationSystem {
+public interface NotifySystem {
 
 	public abstract void notifyStartAction(StartAction action);
 

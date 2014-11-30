@@ -6,28 +6,28 @@ import java.util.Collection;
 import edu.learn.askabouttask.console.controller.MainAction;
 import edu.learn.askabouttask.console.controller.StartAction;
 
-public final class NotificationAggregator implements NotificationSystem {
+public final class NotificationAggregator implements NotifySystem {
 
-	private Collection<NotificationSystem> backendSystems = new ArrayList<NotificationSystem>();
+	private Collection<NotifySystem> backendSystems = new ArrayList<NotifySystem>();
 
-	private NotificationAggregator(Collection<NotificationSystem> backendSystems) {
+	private NotificationAggregator(Collection<NotifySystem> backendSystems) {
 		this.backendSystems = backendSystems;
 	}
 
-	public static NotificationAggregator getAggregator(Collection<NotificationSystem> backendSystems) {
+	public static NotificationAggregator getAggregator(Collection<NotifySystem> backendSystems) {
 		return new NotificationAggregator(backendSystems);
 	}
 
 	@Override
 	public void notifyStartAction(StartAction action) {
-		for (NotificationSystem ns : backendSystems) {
+		for (NotifySystem ns : backendSystems) {
 			ns.notifyStartAction(action);
 		}
 	}
 
 	@Override
 	public void notifyMainAction(MainAction action, Object arg) {
-		for (NotificationSystem ns : backendSystems) {
+		for (NotifySystem ns : backendSystems) {
 			ns.notifyMainAction(action, arg);
 		}
 	}

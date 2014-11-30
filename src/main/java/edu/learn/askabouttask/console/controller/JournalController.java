@@ -17,7 +17,7 @@ import edu.learn.askabouttask.console.view.JournalView;
 import edu.learn.askabouttask.entity.Journal;
 import edu.learn.askabouttask.entity.Task;
 import edu.learn.askabouttask.notifications.NotificationAggregator;
-import edu.learn.askabouttask.notifications.NotificationSystem;
+import edu.learn.askabouttask.notifications.NotifySystem;
 import edu.learn.askabouttask.notifications.TimerTaskNotification;
 
 /**
@@ -25,14 +25,14 @@ import edu.learn.askabouttask.notifications.TimerTaskNotification;
  * 
  */
 public class JournalController {
-	
-	private static final Logger LOGGER = 
-			Logger.getLogger(JournalController.class);
+
+	private static final Logger LOGGER = Logger
+			.getLogger(JournalController.class);
 
 	private JournalView view = new JournalView(); // controller
 
 	private TaskController taskController = new TaskController();
-	
+
 	/**
 	 * Данный объект может быть сохранен в XML файл, а так же загружен из него.
 	 * 
@@ -41,10 +41,14 @@ public class JournalController {
 	 */
 	private Journal journal; // model
 
-	private Collection<NotificationSystem> notificationSystems;
+	private Collection<NotifySystem> notifySystems;
 
-	public JournalController(Collection<NotificationSystem> notificationSystems) {
-		this.notificationSystems = notificationSystems;
+	public JournalController(Collection<NotifySystem> notifySystems) {
+		this.notifySystems = notifySystems;
+	}
+
+	private NotificationAggregator getNSAggregator() {
+		return NotificationAggregator.getAggregator(notifySystems);
 	}
 
 	/**
@@ -56,35 +60,34 @@ public class JournalController {
 	public void start() {
 		while (true) {
 			view.printStartMenu();
-	
+
 			StartAction[] allActions = StartAction.values();
 			Integer choice = null;
-			while ((choice = ConsoleHelper.getInt(
-					1, StartAction.values().length)) == null) {
+			while ((choice = ConsoleHelper
+					.getInt(1, StartAction.values().length)) == null) {
 				view.printWrongInput();
 			}
 			StartAction selectedAction = allActions[choice - 1];
-	
-			switch (selectedAction) {
-				case CREATE_JOURNAL:
-					createJournal();
-					choiceOfAction();
-					
-					break;
-				case OPEN_JOURNAL:
-					if (openJournal()) {
-						choiceOfAction();
-					} else {
-						view.printErrorOpenJournal();
-					}
-					break;
-				case EXIT:
-					return;
-				default:
-					view.printWrongInput();
-					continue;
-			}
 			getNSAggregator().notifyStartAction(selectedAction);
+
+			switch (selectedAction) {
+			case CREATE_JOURNAL:
+				createJournal();
+				choiceOfAction();
+				break;
+			case OPEN_JOURNAL:
+				if (openJournal()) {
+					choiceOfAction();
+				} else {
+					view.printErrorOpenJournal();
+				}
+				break;
+			case EXIT:
+				return;
+			default:
+				view.printWrongInput();
+				continue;
+			}
 		}
 	}
 
@@ -106,30 +109,30 @@ public class JournalController {
 			MainAction selectedAction = allActions[choice - 1];
 
 			switch (selectedAction) {
-				case TASK_LIST:
-					viewTasks();
-					break;
-				case ADD_TASK:
-					addTask();
-					break;
-				case REMOVE_TASK:
-					deleteTask();
-					break;
-				case SHOW_JOURNAL_INFO:
-					viewInfo();
-					break;
-				case SHOW_SHEDULED_TASKS:
-					showSheduledTasks();
-					break;
-				case SAVE_JOURNAL:
-					save();
-					break;
-				case EXIT:
-					exit();
-					return;
-				default:
-					view.printWrongInput();
-					continue;
+			case TASK_LIST:
+				viewTasks();
+				break;
+			case ADD_TASK:
+				addTask();
+				break;
+			case REMOVE_TASK:
+				deleteTask();
+				break;
+			case SHOW_JOURNAL_INFO:
+				viewInfo();
+				break;
+			case SHOW_SHEDULED_TASKS:
+				showSheduledTasks();
+				break;
+			case SAVE_JOURNAL:
+				save();
+				break;
+			case EXIT:
+				exit();
+				return;
+			default:
+				view.printWrongInput();
+				continue;
 			}
 		}
 	}
@@ -158,8 +161,9 @@ public class JournalController {
 			journal = (Journal) parser.getObject(Journal.class, new File(
 					"jaxb.xml"));
 
-			getNSAggregator().notifyMainAction(MainAction.ADD_TASK, journal.getTasks());
-			
+			getNSAggregator().notifyMainAction(MainAction.ADD_TASK,
+					journal.getTasks());
+
 			view.printJournalInfo(journal.getName(), journal.getCount());
 			return true;
 		} catch (Exception e) {
@@ -226,19 +230,13 @@ public class JournalController {
 	}
 
 	private void showSheduledTasks() {
-		/*if (journal.getTasks().isEmpty()) {
-			view.printNoShedulledTasks();
-		} else {
-			for (Iterator<Reminiscentable> i = reminders.iterator();
-					i.hasNext();) {
-				Task task = i.next().getTask();
-				if (TimerTaskNotification.isAvailableForMonitoring(task)) {
-					taskController.showTask(task);
-				} else {
-					i.remove();
-				}
-			}
-		}*/
+		/*
+		 * if (journal.getTasks().isEmpty()) { view.printNoShedulledTasks(); }
+		 * else { for (Iterator<Reminiscentable> i = reminders.iterator();
+		 * i.hasNext();) { Task task = i.next().getTask(); if
+		 * (TimerTaskNotification.isAvailableForMonitoring(task)) {
+		 * taskController.showTask(task); } else { i.remove(); } } }
+		 */
 	}
 
 	/**
@@ -265,10 +263,6 @@ public class JournalController {
 	 * @see Journal
 	 */
 	public void exit() {
-		notificationSystems.clear();
-	}
-
-	private NotificationAggregator getNSAggregator() {
-		return NotificationAggregator.getAggregator(notificationSystems);
+		notifySystems.clear();
 	}
 }

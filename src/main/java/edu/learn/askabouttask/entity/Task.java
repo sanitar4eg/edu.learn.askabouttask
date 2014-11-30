@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import edu.learn.askabouttask.addition.DateFormatter;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(propOrder = { "name", "description", 
-		"minderTime", "contacts" }, name = "task")
+@XmlType(propOrder = { "name", "description", "minderTime", "contacts",
+		"reminderApplication" }, name = "task")
 public class Task {
 
 	protected Task() {
@@ -33,8 +33,7 @@ public class Task {
 
 	private String contacts;
 
-	private static final String REMINDER_APPLICATION = 
-			"src/resources/Reminder.jar"; 
+	private String reminderApplication = "Reminder-0.0.1-SNAPSHOT.jar";
 
 	public final String getName() {
 		return this.name;
@@ -53,7 +52,7 @@ public class Task {
 	}
 
 	@XmlJavaTypeAdapter(DateFormatter.class)
-	public final Date getMinderTime() {						
+	public final Date getMinderTime() {
 		return minderTime;
 	}
 
@@ -68,9 +67,13 @@ public class Task {
 	private void setContacts(String inContacts) {
 		this.contacts = inContacts;
 	}
-	
+
+	public void setReminderApplication(String inReminderApplication) {
+		this.reminderApplication = inReminderApplication;
+	}
+
 	public final String getReminderApplication() {
-		return REMINDER_APPLICATION;
+		return reminderApplication;
 	}
 
 	public boolean isActive() {

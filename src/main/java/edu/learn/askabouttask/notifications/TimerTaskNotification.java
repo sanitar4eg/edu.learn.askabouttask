@@ -15,19 +15,23 @@ import edu.learn.askabouttask.console.controller.MainAction;
 import edu.learn.askabouttask.console.controller.StartAction;
 import edu.learn.askabouttask.entity.Task;
 
-public class TimerTaskNotification implements NotificationSystem {
-	
-	static final Logger LOGGER = 
-			Logger.getLogger(TimerTaskNotification.class);
+public class TimerTaskNotification implements NotifySystem {
+
+	static final Logger LOGGER = Logger.getLogger(TimerTaskNotification.class);
 
 	public TimerTaskNotification() {
-		// конструктор по умолчанию для использования Class.forName(...).newInstance
+		// конструктор по умолчанию для использования
+		// Class.forName(...).newInstance
 	}
 
 	private Timer timer = new Timer(true);
 
-	/* (non-Javadoc)
-	 * @see edu.learn.askabouttask.notifications.NotificationSystem2#notifyStartAction(edu.learn.askabouttask.console.controller.StartAction)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.learn.askabouttask.notifications.NotificationSystem2#notifyStartAction
+	 * (edu.learn.askabouttask.console.controller.StartAction)
 	 */
 	@Override
 	public void notifyStartAction(StartAction action) {
@@ -36,15 +40,20 @@ public class TimerTaskNotification implements NotificationSystem {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.learn.askabouttask.notifications.NotificationSystem2#notifyMainAction(edu.learn.askabouttask.console.controller.MainAction, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.learn.askabouttask.notifications.NotificationSystem2#notifyMainAction
+	 * (edu.learn.askabouttask.console.controller.MainAction, java.lang.Object)
 	 */
 	@Override
 	public void notifyMainAction(MainAction action, Object arg) {
 		LOGGER.info("notifyMainAction:" + arg);
 
 		if (MainAction.ADD_TASK.equals(action)) {
-			Collection<Task> tasks = Collections.checkedList(new ArrayList<Task>(), Task.class);
+			Collection<Task> tasks = Collections.checkedList(
+					new ArrayList<Task>(), Task.class);
 			if (arg instanceof Collection) {
 				tasks.addAll((Collection) arg);
 			} else if (arg instanceof Task) {
@@ -53,8 +62,10 @@ public class TimerTaskNotification implements NotificationSystem {
 			for (Task task : tasks) {
 				// TODO ?
 				if (task.isActive()) {
-					RunJarTaskWithReflect runJar = new RunJarTaskWithReflect(this, task.getReminderApplication(), task.getName());
+					RunJarTaskWithReflect runJar = new RunJarTaskWithReflect(
+							this, task.getReminderApplication(), task.getName());
 					timer.schedule(runJar, task.getMinderTime());
+
 				}
 			}
 		}
