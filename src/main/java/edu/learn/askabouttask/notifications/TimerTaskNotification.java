@@ -5,11 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,6 +22,8 @@ public class TimerTaskNotification implements NotifySystem {
 	public TimerTaskNotification() {
 	}
 
+	// TODO: Сделал таймер демоном
+	// теперь не нужно вручную завершать его работу
 	private Timer timer = new Timer(true);
 
 	// TODO: Пришлось задействовать коллекцию для удаления задачи из журнала

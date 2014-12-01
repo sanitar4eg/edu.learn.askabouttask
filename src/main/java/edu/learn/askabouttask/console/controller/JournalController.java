@@ -2,10 +2,6 @@ package edu.learn.askabouttask.console.controller;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.xml.bind.JAXBException;
 
@@ -18,7 +14,6 @@ import edu.learn.askabouttask.entity.Journal;
 import edu.learn.askabouttask.entity.Task;
 import edu.learn.askabouttask.notifications.NotificationAggregator;
 import edu.learn.askabouttask.notifications.NotifySystem;
-import edu.learn.askabouttask.notifications.TimerTaskNotification;
 
 /**
  * Класс обеспчивающий взаимодействие с пользователем.
@@ -43,8 +38,8 @@ public class JournalController {
 
 	private Collection<NotifySystem> notifySystems;
 
-	public JournalController(Collection<NotifySystem> notifySystems) {
-		this.notifySystems = notifySystems;
+	public JournalController(Collection<NotifySystem> inNotifySystems) {
+		this.notifySystems = inNotifySystems;
 	}
 
 	private NotificationAggregator getNSAggregator() {
@@ -230,7 +225,7 @@ public class JournalController {
 	}
 
 	private void showSheduledTasks() {
-		for(Task task : journal.getTasks()) {
+		for (Task task : journal.getTasks()) {
 			if (task.isActive()) {
 				taskController.showTask(task);
 			}

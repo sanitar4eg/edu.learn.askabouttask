@@ -5,8 +5,8 @@ import edu.learn.askabouttask.console.controller.StartAction;
 
 public interface NotifySystem {
 
-	public abstract void notifyStartAction(StartAction action);
+	void notifyStartAction(StartAction action);
 
-	public abstract void notifyMainAction(MainAction action, Object arg);
+	void notifyMainAction(MainAction action, Object arg);
 
 }

@@ -15,8 +15,8 @@ public final class NotificationAggregator implements NotifySystem {
 
 	private Collection<NotifySystem> backendSystems = new ArrayList<NotifySystem>();
 
-	private NotificationAggregator(Collection<NotifySystem> backendSystems) {
-		this.backendSystems = backendSystems;
+	private NotificationAggregator(Collection<NotifySystem> inBackendSystems) {
+		this.backendSystems = inBackendSystems;
 	}
 
 	public static NotificationAggregator getAggregator(

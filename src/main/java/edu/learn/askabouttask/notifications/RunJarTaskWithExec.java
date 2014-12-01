@@ -8,14 +8,14 @@ public class RunJarTaskWithExec extends TimerTask {
 	/**
 	 * 
 	 */
-	private final TimerTaskNotification RunJarTask2;
+	private final TimerTaskNotification runJarTask;
 	private String path;
 	private String message;
 
-	public RunJarTaskWithExec(TimerTaskNotification timerTaskNotification, String inPath, String message) {
-		RunJarTask2 = timerTaskNotification;
+	public RunJarTaskWithExec(TimerTaskNotification timerTaskNotification, String inPath, String inMessage) {
+		runJarTask = timerTaskNotification;
 		this.path = inPath;
-		this.message = message;
+		this.message = inMessage;
 	}
 
 	public void run() {
