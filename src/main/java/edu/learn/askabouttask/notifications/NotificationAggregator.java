@@ -3,10 +3,15 @@ package edu.learn.askabouttask.notifications;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
+
 import edu.learn.askabouttask.console.controller.MainAction;
 import edu.learn.askabouttask.console.controller.StartAction;
 
 public final class NotificationAggregator implements NotifySystem {
+
+	private static final Logger LOGGER = Logger
+			.getLogger(NotificationAggregator.class);
 
 	private Collection<NotifySystem> backendSystems = new ArrayList<NotifySystem>();
 
@@ -14,7 +19,8 @@ public final class NotificationAggregator implements NotifySystem {
 		this.backendSystems = backendSystems;
 	}
 
-	public static NotificationAggregator getAggregator(Collection<NotifySystem> backendSystems) {
+	public static NotificationAggregator getAggregator(
+			Collection<NotifySystem> backendSystems) {
 		return new NotificationAggregator(backendSystems);
 	}
 

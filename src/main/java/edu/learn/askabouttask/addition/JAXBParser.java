@@ -10,7 +10,7 @@ import javax.xml.bind.Unmarshaller;
 public class JAXBParser implements Parser {
  
 	/**
-	 * Метод осуществляющий загрузку объекта типа {@link Journal} из файла.
+	 * Метод осуществляющий загрузку объекта из файла.
 	 * 
 	 * @param file
 	 *            XML файл из которого будет загружен объект
@@ -26,7 +26,7 @@ public class JAXBParser implements Parser {
 	}
 
 	/**
-	 * Метод, сохраняющий объект типа {@link Journal} в файл.
+	 * Метод, сохраняющий объект в файл.
 	 * 
 	 * @param file
 	 *            XML файл в который сохранится объект

@@ -24,6 +24,15 @@ public class Task {
 		setMinderTime(inMinderTime);
 		setContacts(inContacts);
 	}
+	
+	public Task(String inName, String inDescription, Date inMinderTime,
+			String inContacts, String inReminderApp) {
+		setName(inName);
+		setDescription(inDescription);
+		setMinderTime(inMinderTime);
+		setContacts(inContacts);
+		setReminderApplication(inReminderApp);
+	}
 
 	private String name;
 
@@ -68,12 +77,12 @@ public class Task {
 		this.contacts = inContacts;
 	}
 
-	public void setReminderApplication(String inReminderApplication) {
-		this.reminderApplication = inReminderApplication;
-	}
-
 	public final String getReminderApplication() {
 		return reminderApplication;
+	}
+
+	private void setReminderApplication(String inReminderApplication) {
+		this.reminderApplication = inReminderApplication;
 	}
 
 	public boolean isActive() {

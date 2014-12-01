@@ -30,7 +30,16 @@ public class TaskController {
 		while ((contacts = ConsoleHelper.getString()) == null) {
 			view.printWrongInput();
 		}
-		return new Task(name, description, minderTime, contacts);
+		view.printRequestForReminderApp();
+		String reminderApp = null;
+		while ((reminderApp = ConsoleHelper.getString()) == null) {
+			view.printWrongInput();
+		}
+		if (reminderApp.compareTo("0") == 0) {
+			return new Task(name, description, minderTime, contacts);
+		} else {
+			return new Task(name, description, minderTime, contacts, reminderApp);
+		}
 	}
 
 	public void showTask(Task task) {

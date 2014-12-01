@@ -39,4 +39,8 @@ public class TaskView {
 		System.out.println(WRONG_INPUT);
 	}
 
+	public void printRequestForReminderApp() {
+		System.out.println("Введите jar приложение для запуска(0 оставить по-умолчанию)");
+	}
+
 }

@@ -83,6 +83,7 @@ public class JournalController {
 				}
 				break;
 			case EXIT:
+				exit();
 				return;
 			default:
 				view.printWrongInput();
@@ -128,7 +129,6 @@ public class JournalController {
 				save();
 				break;
 			case EXIT:
-				exit();
 				return;
 			default:
 				view.printWrongInput();
@@ -230,13 +230,11 @@ public class JournalController {
 	}
 
 	private void showSheduledTasks() {
-		/*
-		 * if (journal.getTasks().isEmpty()) { view.printNoShedulledTasks(); }
-		 * else { for (Iterator<Reminiscentable> i = reminders.iterator();
-		 * i.hasNext();) { Task task = i.next().getTask(); if
-		 * (TimerTaskNotification.isAvailableForMonitoring(task)) {
-		 * taskController.showTask(task); } else { i.remove(); } } }
-		 */
+		for(Task task : journal.getTasks()) {
+			if (task.isActive()) {
+				taskController.showTask(task);
+			}
+		}
 	}
 
 	/**
