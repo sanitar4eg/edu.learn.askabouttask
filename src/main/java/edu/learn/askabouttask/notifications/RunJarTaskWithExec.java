@@ -3,7 +3,13 @@ package edu.learn.askabouttask.notifications;
 import java.io.InputStream;
 import java.util.TimerTask;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+
 public class RunJarTaskWithExec extends TimerTask {
+
+	private static final Logger LOGGER = Logger
+			.getLogger(RunJarTaskWithExec.class);
 
 	/**
 	 * 
@@ -24,28 +30,13 @@ public class RunJarTaskWithExec extends TimerTask {
 		try {
 			Process proc = Runtime.getRuntime().exec(
 					"java -jar " + path + " -n " + message);
-
 			proc.waitFor();
 			InputStream in = proc.getInputStream();
 			InputStream err = proc.getErrorStream();
-
-			// TODO: [Vyacheslav Zh.] Для копирования потоков проще
-			// использовать
-			// библиотеку - Apache commons-io
-			byte bytes[] = new byte[in.available()];
-			in.read(bytes, 0, bytes.length);
-			System.out.println(new String(bytes));
-
-			int readCount = 0;
-			while ((readCount = in.read(bytes)) != -1) {
-				String string = new String(bytes, 0, readCount);
-			}
-
-			byte bytes2[] = new byte[err.available()];
-			err.read(bytes2, 0, bytes2.length);
-			System.out.println(new String(bytes2));
+			System.out.println(IOUtils.toString(in));
+			System.out.println(IOUtils.toString(err));
 		} catch (Exception e) {
-			TimerTaskNotification.LOGGER.error("Error in runWithExec", e);
+			LOGGER.error("Error in runWithExec", e);
 		}
 	}
 }

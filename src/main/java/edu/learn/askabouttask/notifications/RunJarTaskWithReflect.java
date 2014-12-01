@@ -9,7 +9,12 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import org.apache.log4j.Logger;
+
 public class RunJarTaskWithReflect extends TimerTask {
+
+	private static final Logger LOGGER = Logger
+			.getLogger(RunJarTaskWithReflect.class);
 
 	/**
 	 * 
@@ -42,7 +47,7 @@ public class RunJarTaskWithReflect extends TimerTask {
 			mainMethod.invoke(mainClass, new Object[] { args2 });
 			jf.close();
 		} catch (Exception e) {
-			TimerTaskNotification.LOGGER.error("Error in runWithJarFile", e);
+			LOGGER.error("Error in runWithJarFile", e);
 		}
 	}
 }

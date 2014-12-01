@@ -24,7 +24,7 @@ public class LoggingNotification implements NotifySystem {
 			LOGGER.trace("User opened an existing journal in Start Menu");
 			break;
 		case EXIT:
-			LOGGER.trace("User left from Start Menu \n End of session");
+			LOGGER.trace("User left from Start Menu \nEnd of session");
 			break;
 		default:
 
