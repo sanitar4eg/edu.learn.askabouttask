@@ -53,14 +53,13 @@ public class TimerTaskNotification implements NotifySystem {
 	 */
 	@Override
 	public void notifyMainAction(MainAction action, Object arg) {
-		LOGGER.info("notifyMainAction:" + arg);
 		Collection<Task> tasks = getChekedList(arg);
 		switch (action) {
 		case ADD_TASK:
 			for (Task task : tasks) {
 				if (task.isActive()) {
 					RunJarTaskWithReflect runJar = new RunJarTaskWithReflect(
-							this, task.getReminderApplication(), task.getName());
+							task.getReminderApplication(), task.getName());
 					timer.schedule(runJar, task.getMinderTime());
 					sheduledTimerTasks.put(task.getMinderTime(), runJar);
 				}

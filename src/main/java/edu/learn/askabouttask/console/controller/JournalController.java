@@ -58,8 +58,8 @@ public class JournalController {
 
 			StartAction[] allActions = StartAction.values();
 			Integer choice = null;
-			while ((choice = ConsoleHelper
-					.getInt(1, StartAction.values().length)) == null) {
+			while ((choice = ConsoleHelper.getInt(1,
+					StartAction.values().length)) == null) {
 				view.printWrongInput();
 			}
 			StartAction selectedAction = allActions[choice - 1];
@@ -78,7 +78,7 @@ public class JournalController {
 				}
 				break;
 			case EXIT:
-				exit();
+				exitFromStartMenu();
 				return;
 			default:
 				view.printWrongInput();
@@ -106,7 +106,8 @@ public class JournalController {
 
 			switch (selectedAction) {
 			case TASK_LIST:
-				viewTasks();
+				getNSAggregator().notifyMainAction(MainAction.TASK_LIST, null);
+				viewTaskList();
 				break;
 			case ADD_TASK:
 				addTask();
@@ -115,15 +116,22 @@ public class JournalController {
 				deleteTask();
 				break;
 			case SHOW_JOURNAL_INFO:
+				getNSAggregator().notifyMainAction(
+						MainAction.SHOW_JOURNAL_INFO, null);
 				viewInfo();
 				break;
 			case SHOW_SHEDULED_TASKS:
+				getNSAggregator().notifyMainAction(
+						MainAction.SHOW_SHEDULED_TASKS, null);
 				showSheduledTasks();
 				break;
 			case SAVE_JOURNAL:
+				getNSAggregator().notifyMainAction(MainAction.SAVE_JOURNAL,
+						null);
 				save();
 				break;
 			case EXIT:
+				getNSAggregator().notifyMainAction(MainAction.EXIT, null);
 				return;
 			default:
 				view.printWrongInput();
@@ -180,7 +188,7 @@ public class JournalController {
 		}
 	}
 
-	public void viewTasks() {
+	public void viewTaskList() {
 		if (journal.isEmpty()) {
 			view.printEmptyJournal(journal.getName());
 		} else {
@@ -190,7 +198,6 @@ public class JournalController {
 				taskController.showTask(task);
 			}
 		}
-
 	}
 
 	/**
@@ -212,16 +219,16 @@ public class JournalController {
 	public void deleteTask() {
 		view.printRequestForTaskName();
 		String name = null;
-		Task target;
+		Task target = null;
 		while ((name = ConsoleHelper.getString()) == null) {
 			view.printWrongInput();
 		}
 		if ((target = journal.deleteTask(name)) != null) {
-			getNSAggregator().notifyMainAction(MainAction.REMOVE_TASK, target);
 			view.printRemoveSuccesfull();
 		} else {
 			view.printRemoveFailed();
 		}
+		getNSAggregator().notifyMainAction(MainAction.REMOVE_TASK, target);
 	}
 
 	private void showSheduledTasks() {
@@ -255,7 +262,7 @@ public class JournalController {
 	 * 
 	 * @see Journal
 	 */
-	public void exit() {
+	public void exitFromStartMenu() {
 		notifySystems.clear();
 	}
 }

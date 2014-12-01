@@ -8,12 +8,10 @@ public class RunJarTaskWithExec extends TimerTask {
 	/**
 	 * 
 	 */
-	private final TimerTaskNotification runJarTask;
 	private String path;
 	private String message;
 
-	public RunJarTaskWithExec(TimerTaskNotification timerTaskNotification, String inPath, String inMessage) {
-		runJarTask = timerTaskNotification;
+	public RunJarTaskWithExec(String inPath, String inMessage) {
 		this.path = inPath;
 		this.message = inMessage;
 	}
@@ -25,8 +23,7 @@ public class RunJarTaskWithExec extends TimerTask {
 	private void runWithExec() {
 		try {
 			Process proc = Runtime.getRuntime().exec(
-					"java -jar " + path + " -n "
-							+ message);
+					"java -jar " + path + " -n " + message);
 
 			proc.waitFor();
 			InputStream in = proc.getInputStream();

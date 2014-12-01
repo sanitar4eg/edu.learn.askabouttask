@@ -14,12 +14,10 @@ public class RunJarTaskWithReflect extends TimerTask {
 	/**
 	 * 
 	 */
-	private final TimerTaskNotification runJarTask;
 	private String path;
 	private String message;
 
-	public RunJarTaskWithReflect(TimerTaskNotification timerTaskNotification, String inPath, String inMessage) {
-		runJarTask = timerTaskNotification;
+	public RunJarTaskWithReflect(String inPath, String inMessage) {
 		this.path = inPath;
 		this.message = inMessage;
 	}
